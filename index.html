@@ -1,0 +1,1308 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=375, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>一码通行 - 交互原型</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  @font-face { font-family: 'PingFang SC'; src: local('PingFang SC'); }
+  body {
+    font-family: 'PingFang SC', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #1a1a2e;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    padding: 20px 0;
+    overflow-x: hidden;
+  }
+  .phone-frame {
+    width: 375px;
+    min-height: 812px;
+    background: white;
+    position: relative;
+    overflow: hidden;
+    border-radius: 40px;
+    box-shadow: 0 0 0 8px #222, 0 20px 60px rgba(0,0,0,0.5);
+  }
+  .page { display: none; position: relative; width: 375px; min-height: 812px; overflow: hidden; }
+  .page.active { display: block; }
+
+  /* Navigation page */
+  .nav-page {
+    background: linear-gradient(135deg, #ff6b4a 0%, #e64c30 50%, #c43d27 100%);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    min-height: 812px; padding: 40px 20px;
+  }
+  .nav-page h1 { color: white; font-size: 28px; font-weight: 700; margin-bottom: 8px; text-align: center; }
+  .nav-page p.subtitle { color: rgba(255,255,255,0.8); font-size: 14px; margin-bottom: 40px; text-align: center; }
+  .nav-btn {
+    width: 100%; max-width: 300px; padding: 16px 24px; border: none; border-radius: 16px;
+    font-size: 16px; font-weight: 600; cursor: pointer; margin-bottom: 16px;
+    transition: transform 0.15s, box-shadow 0.15s; display: flex; align-items: center; gap: 12px;
+  }
+  .nav-btn:active { transform: scale(0.97); }
+  .nav-btn.home { background: white; color: #e64c30; box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
+  .nav-btn.region { background: rgba(255,255,255,0.15); color: white; border: 1.5px solid rgba(255,255,255,0.4); }
+  .nav-btn .icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
+  .nav-btn.home .icon { background: #fff0ed; }
+  .nav-btn.region .icon { background: rgba(255,255,255,0.15); }
+  .nav-btn .text { flex: 1; }
+  .nav-btn .text span { display: block; font-size: 12px; font-weight: 400; opacity: 0.7; margin-top: 2px; }
+  .nav-btn .arrow { font-size: 20px; opacity: 0.5; }
+
+  /* Status bar */
+  .status-bar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 24px 0 28px; height: 44px;
+  }
+  .status-bar .time { font-size: 15px; font-weight: 600; color: rgba(0,0,0,0.9); letter-spacing: 0.5px; }
+  .status-bar .icons { width: 67px; height: 11px; }
+
+  /* MP Header (mini program) */
+  .mp-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 6px 8px; height: 44px;
+  }
+  .mp-header .back-group {
+    display: flex; align-items: center; gap: 0;
+    background: rgba(255,255,255,0.6); border: 0.5px solid rgba(151,151,151,0.2);
+    border-radius: 30px; padding: 0; height: 32px; overflow: hidden;
+  }
+  .mp-header .back-btn {
+    width: 36px; height: 32px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+  }
+  .mp-header .back-btn img { width: 18px; height: 18px; }
+  .mp-header .divider { width: 0.5px; height: 18px; background: #c8c8c8; }
+  .mp-header .home-btn { width: 36px; height: 32px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+  .mp-header .home-btn img { width: 18px; height: 18px; }
+  .mp-header .title { flex: 1; text-align: center; font-size: 17px; font-weight: 500; color: rgba(0,0,0,0.9); }
+  .mp-header .func { width: 86.5px; height: 32px; }
+  .mp-header .func img { width: 100%; height: 100%; }
+
+  /* Search bar on home/region pages */
+  .search-bar {
+    height: 56px; background: white; display: flex; align-items: center; padding: 10px 16px;
+    cursor: pointer;
+  }
+  .search-bar-inner {
+    width: 343px; height: 36px; background: #ededef; border-radius: 18px;
+    display: flex; align-items: center; padding: 0 14px; gap: 8px;
+  }
+  .search-bar-inner .search-icon { font-size: 14px; color: #ababaf; }
+  .search-bar-inner .placeholder { font-size: 14px; color: #ababaf; }
+
+  /* Home page with background image */
+  .home-bg-top { width: 375px; height: 422px; overflow: hidden; position: relative; }
+  .home-bg-top img { width: 375px; height: 815px; object-fit: cover; position: absolute; top: 0; left: 0; }
+  .home-bg-bottom { width: 375px; height: 393px; overflow: hidden; position: relative; }
+  .home-bg-bottom img { width: 375px; height: 815px; object-fit: cover; position: absolute; top: -422px; left: 0; }
+
+  /* Region page */
+  .region-bg-top { width: 375px; height: 416px; overflow: hidden; position: relative; }
+  .region-bg-top img { width: 375px; height: 815px; object-fit: cover; position: absolute; top: 0; left: 0; }
+  .region-bg-bottom { width: 375px; height: 400px; overflow: hidden; position: relative; }
+  .region-bg-bottom img { width: 375px; height: 815px; object-fit: cover; position: absolute; top: -416px; left: 0; }
+
+  /* ===== SEARCH PAGE HEADER ===== */
+  .search-header {
+    background: #e64c30; position: relative;
+  }
+  .search-header .status-bar .time { color: white; }
+
+  /* MP bar on search page (搜索 title in center) */
+  .search-mp-bar {
+    display: flex; align-items: center; padding: 4px 8px; height: 44px;
+  }
+  .search-mp-bar .back-arrow {
+    width: 32px; height: 32px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .search-mp-bar .back-arrow img { width: 10px; height: 18px; filter: brightness(100); }
+  .search-mp-bar .home-icon-btn {
+    width: 32px; height: 32px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    margin-left: 2px;
+  }
+  .search-mp-bar .home-icon-btn img { width: 20px; height: 20px; }
+  .search-mp-bar .search-title {
+    flex: 1; text-align: center; font-size: 17px; font-weight: 500; color: white;
+  }
+  .search-mp-bar .capsule-btn {
+    width: 86.5px; height: 32px;
+  }
+  .search-mp-bar .capsule-btn img { width: 100%; height: 100%; }
+
+  /* Search input row */
+  .search-input-row {
+    display: flex; align-items: center; gap: 0; padding: 0 12px 0 12px; height: 44px;
+    position: relative;
+  }
+  .search-input-row .back-arrow2 {
+    width: 28px; height: 28px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .search-input-row .back-arrow2 svg { width: 10px; height: 18px; }
+  .search-input-row .input-container {
+    flex: 1; position: relative; margin-left: 8px; margin-right: 8px;
+  }
+  .search-input-row .input-box {
+    width: 100%; height: 36px; background: white;
+    border: none; border-bottom: 2px solid #e64c30;
+    display: flex; align-items: center; padding: 0 12px; gap: 8px;
+  }
+  .search-input-row .input-box .search-icon-sm {
+    width: 14px; height: 14px; flex-shrink: 0; color: #ababaf; font-size: 13px;
+  }
+  .search-input-row .input-box input {
+    border: none; outline: none; flex: 1; font-size: 14px; color: rgba(0,0,0,0.9);
+    background: transparent; height: 100%;
+  }
+  .search-input-row .input-box input::placeholder { color: #ababaf; font-size: 14px; }
+
+  /* Floating paste label */
+  .paste-float {
+    position: absolute; top: -14px; left: 8px; z-index: 5;
+    background: white; border: 1.5px solid #07c160; border-radius: 14px;
+    padding: 3px 10px; font-size: 13px; color: #07c160; font-weight: 500;
+    cursor: pointer; white-space: nowrap;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+
+  .search-input-row .home-icon-right {
+    width: 24px; height: 24px; flex-shrink: 0; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .search-input-row .home-icon-right img { width: 20px; height: 20px; }
+
+  /* Red line under search */
+  .search-red-divider { width: 375px; height: 3px; background: #e64c30; }
+
+  /* ===== iOS KEYBOARD (Full - for search pages) ===== */
+  .ios-keyboard { width: 375px; background: #d1d4d9; }
+
+  /* Chinese suggestion row */
+  .kb-suggestion-row {
+    display: flex; align-items: center; height: 42px;
+    background: #ebedf0; border-top: 0.5px solid #c8c8c8;
+    padding: 0;
+  }
+  .kb-suggestion-row .suggestion-item {
+    flex: 1; text-align: center; font-size: 16px; color: rgba(0,0,0,0.85);
+    height: 100%; display: flex; align-items: center; justify-content: center;
+    border-right: 0.5px solid #c8c8c8;
+  }
+  .kb-suggestion-row .suggestion-item:last-child { border-right: none; }
+  .kb-suggestion-row .suggestion-collapse {
+    width: 36px; height: 100%; display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; border-left: 0.5px solid #c8c8c8;
+    font-size: 12px; color: #8e8e93;
+  }
+
+  /* Keyboard rows */
+  .kb-keys-area { padding: 6px 3px 4px; }
+  .kb-row {
+    display: flex; gap: 6px; padding: 0 3px; margin-bottom: 12px; height: 42px;
+    justify-content: center;
+  }
+  .kb-row:last-child { margin-bottom: 0; }
+  .kb-key {
+    flex: 1; background: white; border-radius: 5px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; color: black; min-width: 0;
+    box-shadow: 0 1px 0 rgba(0,0,0,0.3);
+  }
+  .kb-key.letter { text-transform: lowercase; }
+  .kb-row.row-middle { padding: 0 18px; }
+  .kb-key.special {
+    background: #adb3bc; flex: 0 0 42px; font-size: 16px;
+    box-shadow: 0 1px 0 rgba(0,0,0,0.3);
+  }
+  .kb-key.shift-key { flex: 0 0 42px; }
+  .kb-key.shift-key img { width: 20px; height: 18px; }
+  .kb-key.delete-key { flex: 0 0 42px; }
+  .kb-key.delete-key img { width: 22px; height: 17px; }
+
+  /* Bottom function row (123, emoji, space, search/return, mic) */
+  .kb-func-row {
+    display: flex; align-items: center; gap: 6px;
+    padding: 0 3px; height: 42px; margin-top: 12px;
+  }
+  .kb-func-btn {
+    background: #adb3bc; border-radius: 5px; height: 42px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; color: black;
+    box-shadow: 0 1px 0 rgba(0,0,0,0.3);
+  }
+  .kb-func-btn.num-btn { flex: 0 0 46px; font-weight: 400; }
+  .kb-func-btn.emoji-btn { flex: 0 0 40px; font-size: 20px; }
+  .kb-func-btn.space-btn {
+    flex: 1; background: white; font-size: 16px; color: rgba(0,0,0,0.5);
+  }
+  .kb-func-btn.search-btn {
+    flex: 0 0 72px; background: #1b7af7; color: white; font-size: 16px; font-weight: 500;
+  }
+  .kb-func-btn.mic-btn { flex: 0 0 40px; font-size: 18px; }
+
+  /* Globe row */
+  .kb-globe-row {
+    display: flex; align-items: center; justify-content: center;
+    height: 20px; padding: 6px 0 0;
+  }
+
+  /* Home indicator */
+  .kb-home-indicator {
+    height: 34px; position: relative; background: #d1d4d9;
+  }
+  .kb-home-indicator .bar {
+    position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%);
+    width: 134px; height: 5px; background: rgba(0,0,0,0.9); border-radius: 100px;
+  }
+
+  /* ===== iOS KEYBOARD (Simple - for popup pages, 4 rows only) ===== */
+  .ios-keyboard-simple { width: 375px; background: #d1d4d9; }
+  .ios-keyboard-simple .kb-keys-area { padding: 6px 3px 4px; }
+
+  /* ===== POPUP STYLES ===== */
+  .popup-overlay {
+    position: absolute; top: 0; left: 0; width: 375px; height: 812px;
+    z-index: 20;
+  }
+  /* MP header background behind popup overlay */
+  .popup-bg-header {
+    position: absolute; top: 0; left: 0; width: 375px; z-index: 19;
+    background: #e64c30;
+  }
+  .popup-mask {
+    position: absolute; top: 0; left: 0; width: 375px; height: 812px;
+    background: rgba(0,0,0,0.6); z-index: 20;
+  }
+  .popup-content {
+    position: absolute; bottom: 0; left: 0; width: 375px;
+    background: white; border-radius: 12px 12px 0 0; overflow: hidden;
+    z-index: 25;
+  }
+
+  /* Popup header */
+  .popup-header {
+    background: linear-gradient(to top, white 50%, #ffe8e7);
+    padding: 20px 16px 16px;
+  }
+  .popup-header-title {
+    display: flex; align-items: center; justify-content: center; gap: 4px;
+    padding: 0 16px; margin-bottom: 12px; position: relative;
+  }
+  .popup-header-title .close-btn {
+    position: absolute; right: 0; top: 0; width: 24px; height: 24px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .popup-header-title .close-btn img { width: 16px; height: 16px; }
+  .popup-header-title h2 {
+    font-size: 20px; font-weight: 500; color: #783f2c; text-align: center; flex: 1;
+  }
+
+  /* Tips section */
+  .tips-section { padding: 0 16px; }
+  .tips-card {
+    background: linear-gradient(to bottom, #ffe7e6, white);
+    border-radius: 8px 8px 0 0; padding: 20px;
+    display: flex; gap: 16px;
+  }
+  .tips-content { flex: 1; padding-top: 4px; }
+  .tips-badge {
+    display: inline-flex; align-items: center; justify-content: center;
+    background: linear-gradient(116deg, #ffa660, #ff784d);
+    border-radius: 4px; padding: 0 6px; height: 20px;
+    font-size: 12px; font-weight: 600; color: white; margin-bottom: 8px;
+  }
+  .tips-text { font-size: 14px; color: #783f2c; line-height: 24px; }
+  .tips-text .highlight { color: #e64c30; }
+  .tips-poster { width: 100px; height: 126px; border-radius: 4px; object-fit: cover; }
+
+  /* Code boxes */
+  .code-boxes {
+    display: flex; gap: 6px; padding: 0 20px; justify-content: center;
+  }
+  .code-box {
+    flex: 1; height: 54px; border: 0.5px solid #ccc; border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; font-weight: 500; color: rgba(0,0,0,0.9);
+  }
+
+  /* Popup buttons */
+  .popup-buttons {
+    background: white; padding: 28px 20px 24px;
+    display: flex; gap: 16px; justify-content: center;
+  }
+  .popup-btn {
+    width: 134px; height: 36px; border-radius: 49px; border: none;
+    font-size: 16px; font-weight: 500; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .popup-btn.cancel { background: #eee; color: rgba(0,0,0,0.9); }
+  .popup-btn.confirm { background: #e64c30; color: white; }
+
+  /* Result choice page */
+  .result-choice {
+    position: absolute; top: 0; left: 0; width: 375px; height: 812px;
+    background: linear-gradient(135deg, #e64c30 0%, #c43d27 100%);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    z-index: 30; padding: 40px 30px;
+  }
+  .result-choice h2 { color: white; font-size: 22px; font-weight: 700; margin-bottom: 8px; }
+  .result-choice p { color: rgba(255,255,255,0.7); font-size: 14px; margin-bottom: 40px; }
+  .result-btn {
+    width: 100%; max-width: 280px; padding: 18px; border: none; border-radius: 16px;
+    font-size: 18px; font-weight: 600; cursor: pointer; margin-bottom: 16px;
+    transition: transform 0.15s;
+  }
+  .result-btn:active { transform: scale(0.97); }
+  .result-btn.success {
+    background: linear-gradient(to bottom, #ffab19, #f79d00);
+    color: white; box-shadow: 0 4px 20px rgba(255,171,25,0.4);
+  }
+  .result-btn.full {
+    background: rgba(255,255,255,0.15); color: white;
+    border: 1.5px solid rgba(255,255,255,0.4);
+  }
+  .result-btn .emoji { font-size: 24px; margin-right: 8px; }
+
+  /* Toast notification */
+  .toast {
+    position: absolute; top: 280px; left: 50%; transform: translateX(-50%);
+    width: 150px; height: 150px; z-index: 40;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    animation: toastIn 0.3s ease;
+  }
+  .toast-bg {
+    position: absolute; inset: 0; border-radius: 12px;
+    background: rgba(0,0,0,0.7); backdrop-filter: blur(8px);
+  }
+  .toast-icon { position: relative; z-index: 1; width: 54px; height: 54px; margin-bottom: 12px; }
+  .toast-icon img { width: 100%; height: 100%; }
+  .toast-text { position: relative; z-index: 1; font-size: 17px; font-weight: 500; color: white; text-align: center; white-space: nowrap; }
+  @keyframes toastIn { from { opacity: 0; transform: translateX(-50%) scale(0.8); } to { opacity: 1; transform: translateX(-50%) scale(1); } }
+
+  /* Success page */
+  .success-page-bg {
+    background: linear-gradient(rgb(255,207,190) 50%, white 100%);
+    min-height: 812px;
+  }
+  .success-header-area {
+    display: flex; align-items: center; gap: 10px;
+    padding: 0 20px; margin-top: -4px;
+  }
+  .success-avatar { width: 60px; height: 60px; border-radius: 8px; }
+  .success-info { flex: 1; }
+  .success-info h3 { font-size: 24px; font-weight: 600; color: #592f21; margin-bottom: 4px; }
+  .success-info .sub-row { display: flex; align-items: center; justify-content: space-between; }
+  .success-info .sub-text { font-size: 12px; color: rgba(120,63,44,0.6); }
+  .success-info .store-btn {
+    border: 0.5px solid rgba(120,63,44,0.4); border-radius: 14px;
+    padding: 3px 8px; font-size: 12px; color: #783f2c; background: transparent; cursor: pointer;
+  }
+
+  /* Card section */
+  .card-section {
+    margin: 16px 10px 0; background: white; border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05); overflow: hidden;
+  }
+  .card-title-area {
+    padding: 24px 16px 8px;
+    background: linear-gradient(#ffefe9, rgba(255,241,238,0) 30%), white;
+    text-align: center;
+  }
+  .card-title-area h2 { font-size: 22px; font-weight: 800; color: #e64c30; font-family: 'MFDianHei', 'PingFang SC', sans-serif; }
+  .card-title-area .card-sub { font-size: 12px; color: #cf8181; line-height: 18px; margin-top: 4px; }
+
+  /* Stats row */
+  .stats-row {
+    display: flex; margin: 0 12px; background: linear-gradient(to bottom, #ffefe9, rgba(255,241,238,0));
+    border-radius: 8px; height: 110px;
+  }
+  .stat-item {
+    flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 20px 0; gap: 4px; position: relative;
+  }
+  .stat-item .stat-label { font-size: 16px; font-weight: 500; color: #783f2c; }
+  .stat-item .stat-value { display: flex; align-items: baseline; }
+  .stat-item .stat-number { font-size: 28px; font-weight: 700; color: #783f2c; }
+  .stat-item .stat-unit { font-size: 14px; font-weight: 600; color: #783f2c; }
+  .stat-item .stat-desc { font-size: 12px; color: #cf8181; }
+  .stat-divider {
+    width: 0; height: 93px; align-self: center;
+    border-left: 0.5px solid #ffe2dc;
+  }
+
+  /* Progress section */
+  .progress-section {
+    margin: 0 12px; background: linear-gradient(to bottom, #f35926, #e64c30);
+    border-radius: 0 0 12px 12px; padding: 0 16px 20px;
+  }
+  .progress-wave { width: 100%; height: 35px; margin: 0 -16px; width: calc(100% + 32px); }
+  .progress-wave img { width: 100%; height: 100%; }
+  .progress-title {
+    text-align: center; padding: 4px 8px; margin-bottom: 8px;
+    background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,160,0,0.3) 20%, rgba(255,160,0,0.3) 80%, rgba(255,255,255,0) 100%);
+  }
+  .progress-title span { font-size: 14px; font-weight: 500; color: white; }
+  .progress-title .gold { font-weight: 700; color: #f3cc4d; }
+
+  .progress-bar-area { padding: 0 0 4px; }
+  .progress-tag { display: inline-flex; align-items: center; gap: 4px; margin-bottom: 0; }
+  .progress-tag .tag {
+    background: #fcdfde; border-radius: 0 4px 4px 0; padding: 4px 6px;
+    font-size: 12px; font-weight: 700; color: #e64c30;
+  }
+  .progress-tag .tag-line { width: 1px; height: 10px; background: #fcdfde; }
+  .progress-track { height: 10px; background: #fcdfde; border-radius: 5px; width: 100%; margin-top: 5px; }
+  .progress-milestones { display: flex; margin-top: -8px; }
+  .milestone { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  .milestone-dot { width: 10px; height: 28px; }
+  .milestone-dot img { width: 100%; height: 100%; }
+  .milestone-text { text-align: center; opacity: 0.7; }
+  .milestone-text p { font-size: 12px; font-weight: 600; color: white; }
+
+  .team-section { padding: 12px 16px; }
+  .team-avatars { display: flex; align-items: center; justify-content: center; margin-bottom: 12px; }
+  .team-avatar-item { display: flex; flex-direction: column; align-items: center; gap: 4px; width: 65px; }
+  .team-avatar-circle {
+    width: 44px; height: 44px; border-radius: 50%; overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .team-avatar-circle.empty { background: #ffe7e6; }
+  .team-avatar-circle img { width: 100%; height: 100%; }
+  .team-avatar-label { font-size: 12px; color: rgba(255,255,255,0.8); }
+
+  .invite-btn {
+    display: flex; align-items: center; justify-content: center;
+    width: 218px; height: 41px; margin: 0 auto;
+    background: linear-gradient(to bottom, #ffab19, #f79d00);
+    border: 0.5px solid white; border-radius: 20px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.16);
+    font-size: 16px; font-weight: 600; color: white;
+    text-shadow: 0 1px 0 rgba(0,0,0,0.12);
+    cursor: pointer; position: relative;
+  }
+  .invite-badge {
+    position: absolute; right: -30px; top: -6px;
+    background: linear-gradient(to bottom, rgba(252,230,222,0.8), rgba(255,255,255,0.8));
+    border: 0.5px solid white; border-radius: 0 8px 0 8px;
+    padding: 1px 3px 0 5px; font-size: 11px; font-weight: 600; color: #e64c30;
+    backdrop-filter: blur(2px);
+  }
+
+  .links-row {
+    display: flex; align-items: center; justify-content: center; gap: 32px;
+    padding: 12px 0;
+  }
+  .links-row a {
+    font-size: 14px; color: #783f2c; text-decoration: none; cursor: pointer;
+  }
+  .links-row a.danger {
+    background: #fff6f6; border: 1px solid #fee0e0; border-radius: 33px;
+    padding: 2px 8px; color: #e64c30;
+  }
+
+  /* Home indicator */
+  .home-indicator {
+    position: absolute; bottom: 0; left: 0; width: 375px; height: 34px;
+  }
+  .home-indicator-bar {
+    position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%);
+    width: 134px; height: 5px; background: rgba(0,0,0,0.9); border-radius: 100px;
+  }
+
+  /* ===== TEAM FULL PAGE ===== */
+  .full-page-upper {
+    width: 375px; position: relative; overflow: hidden;
+    background: linear-gradient(to bottom, #e64c30 0%, #d44028 100%);
+  }
+  .full-page-upper .decorations {
+    position: relative; height: 200px; overflow: visible;
+  }
+  .full-page-upper .deco-item {
+    position: absolute;
+  }
+  .full-page-upper .deco-item img { width: 100%; height: 100%; object-fit: contain; }
+
+  /* Team full bottom sheet */
+  .team-full-sheet {
+    width: 375px; background: white; border-radius: 16px 16px 0 0;
+    position: relative; margin-top: -16px; z-index: 5;
+  }
+  .team-full-avatar-float {
+    width: 60px; height: 60px; border-radius: 50%; overflow: hidden;
+    position: absolute; top: -30px; left: 50%; transform: translateX(-50%);
+    z-index: 10; border: 3px solid white;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+  .team-full-avatar-float img { width: 100%; height: 100%; }
+
+  .team-full-content {
+    text-align: center; padding: 40px 20px 0;
+  }
+  .team-full-content .merchant-name {
+    font-size: 14px; font-weight: 500; color: #783f2c; margin-bottom: 8px;
+  }
+  .team-full-content .full-title {
+    font-size: 26px; font-weight: 700; color: #e64c30; margin-bottom: 8px;
+  }
+  .team-full-content .full-desc {
+    font-size: 14px; color: #cf8181; line-height: 21px; padding: 0 20px;
+  }
+
+  /* Team full progress card */
+  .team-full-progress {
+    padding: 16px 16px 0;
+  }
+  .team-full-progress-card {
+    background: linear-gradient(to bottom, #ffe7e6, #fff9f9);
+    border: 0.5px solid #ffe4e3; border-radius: 12px;
+    padding: 16px;
+  }
+  .team-members-row {
+    display: flex; align-items: center; gap: 6px; padding: 2px 0; margin-bottom: 16px;
+  }
+  .team-member-avatars { display: flex; padding-right: 8px; }
+  .team-member-avatar {
+    width: 24px; height: 24px; border-radius: 50%; border: 0.4px solid rgba(0,0,0,0.15);
+    margin-right: -4px; overflow: hidden;
+  }
+  .team-member-avatar img { width: 100%; height: 100%; }
+  .team-member-text { font-size: 14px; font-weight: 500; color: #783f2c; }
+  .team-member-text .red { color: #e64c30; }
+
+  .full-progress-track { height: 10px; background: #f9d1cf; border-radius: 5px; width: 100%; position: relative; overflow: hidden; }
+  .full-progress-fill {
+    position: absolute; left: 0; top: 0; height: 100%;
+    background: linear-gradient(to right, #ffab19, #f79d00);
+    border-radius: 5px;
+  }
+  .full-progress-milestones { display: flex; margin-top: -8px; }
+  .full-milestone { flex: 1; text-align: center; }
+  .full-milestone-dot { width: 10px; height: 28px; margin: 0 auto; }
+  .full-milestone-dot img { width: 100%; height: 100%; }
+  .full-milestone p { font-size: 12px; color: #cf8181; margin-top: 4px; }
+  .full-milestone.active p { color: #ffa000; }
+
+  .gold-tag-area {
+    text-align: right; padding-right: 20px; margin-bottom: 4px;
+  }
+  .gold-tag {
+    display: inline-flex; align-items: center;
+    background: linear-gradient(110deg, #9a7941, #816840 14%, #5f4c2e 48.5%, #453623 49%, #34281b);
+    border: 1px solid #d9ba74; border-radius: 0 4px 4px 4px;
+    padding: 4px 6px; gap: 1px;
+  }
+  .gold-tag span { font-size: 12px; font-weight: 700; color: white; }
+  .gold-tag .num { font-size: 15px; }
+  .gold-tag .pct { font-size: 13px; font-weight: 400; }
+  .gold-tag-line {
+    width: 1px; height: 10px; background: #c5a96a;
+    margin-left: auto; margin-right: 30px;
+  }
+
+  .team-full-note {
+    text-align: center; padding: 16px 16px 0; font-size: 14px; color: #cf8181;
+  }
+  .team-full-note .red { color: #e64c30; }
+
+  /* page transition animation */
+  .page { animation: fadeIn 0.25s ease; }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+  button:focus-visible, [role="button"]:focus-visible {
+    outline: 2px solid #007AFF; outline-offset: 2px;
+  }
+</style>
+</head>
+<body>
+<div class="phone-frame">
+  <!-- Page 0: Navigation -->
+  <div class="page active" id="page-nav">
+    <div class="nav-page">
+      <h1>🔍 一码通行</h1>
+      <p class="subtitle">选择入口开始体验流程</p>
+      <button class="nav-btn home" onclick="goTo('page-home')">
+        <div class="icon">🏠</div>
+        <div class="text">从首页进入<span>全球有礼首页 → 搜索</span></div>
+        <div class="arrow">›</div>
+      </button>
+      <button class="nav-btn region" onclick="goTo('page-region')">
+        <div class="icon">🇯🇵</div>
+        <div class="text">从地区页进入<span>日本地区页 → 搜索</span></div>
+        <div class="arrow">›</div>
+      </button>
+    </div>
+  </div>
+
+  <!-- Page 1: Home Search -->
+  <div class="page" id="page-home">
+    <div class="home-bg-top">
+      <img src="images/home_top.png" alt="首页上半部分">
+    </div>
+    <div class="search-bar" onclick="startSearch('home')">
+      <div class="search-bar-inner">
+        <span class="search-icon">🔍</span>
+        <span class="placeholder">搜索组队码，一键加入队伍</span>
+      </div>
+    </div>
+    <div class="home-bg-bottom">
+      <img src="images/home_top.png" alt="首页下半部分">
+    </div>
+  </div>
+
+  <!-- Page 2: Region Search -->
+  <div class="page" id="page-region">
+    <div class="region-bg-top">
+      <img src="images/japan_top.png" alt="地区页上半部分">
+    </div>
+    <div class="search-bar" onclick="startSearch('region')">
+      <div class="search-bar-inner">
+        <span class="search-icon">🔍</span>
+        <span class="placeholder">支持搜索组队码和商家</span>
+      </div>
+    </div>
+    <div class="region-bg-bottom">
+      <img src="images/japan_top.png" alt="地区页下半部分">
+    </div>
+  </div>
+
+  <!-- Page 3: Search Before Paste -->
+  <div class="page" id="page-search-before">
+    <div class="search-header">
+      <!-- Status bar (white text on red) -->
+      <div class="status-bar">
+        <span class="time" style="color:white">9:00</span>
+        <img class="icons" src="images/icon_union_status.svg" alt="status" style="filter:brightness(10)">
+      </div>
+      <!-- MP bar with "搜索" title -->
+      <div class="search-mp-bar">
+        <div class="back-arrow" onclick="goBack()">
+          <svg width="10" height="18" viewBox="0 0 10 18" fill="none"><path d="M9 1L1 9L9 17" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="search-title">搜索</div>
+        <div class="capsule-btn">
+          <img src="images/icon_mp_func.svg" alt="func" style="filter:brightness(10);">
+        </div>
+      </div>
+      <!-- Search input row -->
+      <div class="search-input-row">
+        <div class="input-container">
+          <!-- Floating paste label -->
+          <div class="paste-float" onclick="doPaste()">粘贴</div>
+          <div class="input-box">
+            <span class="search-icon-sm">🔍</span>
+            <input type="text" placeholder="粘贴组队码，一键加入队伍" readonly>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Red line divider -->
+    <div class="search-red-divider"></div>
+    <!-- Empty content area -->
+    <div style="flex:1;background:#f5f5f5;height:316px;"></div>
+    <!-- Full iOS Keyboard -->
+    <div class="ios-keyboard">
+      <!-- Chinese suggestion row -->
+      <div class="kb-suggestion-row">
+        <div class="suggestion-item">我</div>
+        <div class="suggestion-item">你</div>
+        <div class="suggestion-item">胖</div>
+        <div class="suggestion-item">那</div>
+        <div class="suggestion-item">好</div>
+        <div class="suggestion-item">这</div>
+        <div class="suggestion-item">他</div>
+        <div class="suggestion-item">是</div>
+        <div class="suggestion-item">老</div>
+        <div class="suggestion-collapse">⌄</div>
+      </div>
+      <!-- Key rows -->
+      <div class="kb-keys-area">
+        <div class="kb-row">
+          <div class="kb-key">q</div><div class="kb-key">w</div><div class="kb-key">e</div><div class="kb-key">r</div>
+          <div class="kb-key">t</div><div class="kb-key">y</div><div class="kb-key">u</div><div class="kb-key">i</div>
+          <div class="kb-key">o</div><div class="kb-key">p</div>
+        </div>
+        <div class="kb-row row-middle">
+          <div class="kb-key">a</div><div class="kb-key">s</div><div class="kb-key">d</div><div class="kb-key">f</div>
+          <div class="kb-key">g</div><div class="kb-key">h</div><div class="kb-key">j</div><div class="kb-key">k</div>
+          <div class="kb-key">l</div>
+        </div>
+        <div class="kb-row">
+          <div class="kb-key special shift-key"><img src="images/icon_shift.svg" alt="⇧"></div>
+          <div class="kb-key">z</div><div class="kb-key">x</div><div class="kb-key">c</div><div class="kb-key">v</div>
+          <div class="kb-key">b</div><div class="kb-key">n</div><div class="kb-key">m</div>
+          <div class="kb-key special delete-key"><img src="images/icon_delete.svg" alt="⌫"></div>
+        </div>
+        <!-- Function row -->
+        <div class="kb-func-row">
+          <div class="kb-func-btn num-btn">123</div>
+          <div class="kb-func-btn emoji-btn">😊</div>
+          <div class="kb-func-btn space-btn">空格</div>
+          <div class="kb-func-btn search-btn">搜索</div>
+        </div>
+      </div>
+      <div class="kb-home-indicator"><div class="bar"></div></div>
+    </div>
+  </div>
+
+  <!-- Page 4: Search After Paste -->
+  <div class="page" id="page-search-after">
+    <div class="search-header">
+      <div class="status-bar">
+        <span class="time" style="color:white">9:00</span>
+        <img class="icons" src="images/icon_union_status.svg" alt="status" style="filter:brightness(10)">
+      </div>
+      <div class="search-mp-bar">
+        <div class="back-arrow" onclick="goBack()">
+          <svg width="10" height="18" viewBox="0 0 10 18" fill="none"><path d="M9 1L1 9L9 17" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="home-icon-btn" onclick="goTo('page-nav')">
+          <img src="images/icon_home.svg" alt="home" style="filter:brightness(0) saturate(100%) invert(42%) sepia(93%) saturate(1352%) hue-rotate(196deg) brightness(97%) contrast(107%);">
+        </div>
+        <div class="search-title">搜索</div>
+        <div class="capsule-btn">
+          <img src="images/icon_mp_func.svg" alt="func" style="filter:brightness(10);">
+        </div>
+      </div>
+      <div class="search-input-row">
+        <div class="input-container">
+          <div class="input-box">
+            <span class="search-icon-sm">🔍</span>
+            <input type="text" value="CN1043" readonly>
+            <span style="width:2px;height:18px;background:#e64c30;animation:blink 1s infinite;flex-shrink:0;"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="search-red-divider"></div>
+    <div style="flex:1;background:#f5f5f5;height:316px;"></div>
+    <!-- Full iOS Keyboard with search button -->
+    <div class="ios-keyboard">
+      <div class="kb-suggestion-row">
+        <div class="suggestion-item">我</div>
+        <div class="suggestion-item">你</div>
+        <div class="suggestion-item">胖</div>
+        <div class="suggestion-item">那</div>
+        <div class="suggestion-item">好</div>
+        <div class="suggestion-item">这</div>
+        <div class="suggestion-item">他</div>
+        <div class="suggestion-item">是</div>
+        <div class="suggestion-item">老</div>
+        <div class="suggestion-collapse">⌄</div>
+      </div>
+      <div class="kb-keys-area">
+        <div class="kb-row">
+          <div class="kb-key">q</div><div class="kb-key">w</div><div class="kb-key">e</div><div class="kb-key">r</div>
+          <div class="kb-key">t</div><div class="kb-key">y</div><div class="kb-key">u</div><div class="kb-key">i</div>
+          <div class="kb-key">o</div><div class="kb-key">p</div>
+        </div>
+        <div class="kb-row row-middle">
+          <div class="kb-key">a</div><div class="kb-key">s</div><div class="kb-key">d</div><div class="kb-key">f</div>
+          <div class="kb-key">g</div><div class="kb-key">h</div><div class="kb-key">j</div><div class="kb-key">k</div>
+          <div class="kb-key">l</div>
+        </div>
+        <div class="kb-row">
+          <div class="kb-key special shift-key"><img src="images/icon_shift.svg" alt="⇧"></div>
+          <div class="kb-key">z</div><div class="kb-key">x</div><div class="kb-key">c</div><div class="kb-key">v</div>
+          <div class="kb-key">b</div><div class="kb-key">n</div><div class="kb-key">m</div>
+          <div class="kb-key special delete-key"><img src="images/icon_delete.svg" alt="⌫"></div>
+        </div>
+        <div class="kb-func-row">
+          <div class="kb-func-btn num-btn">123</div>
+          <div class="kb-func-btn emoji-btn">😊</div>
+          <div class="kb-func-btn space-btn">空格</div>
+          <div class="kb-func-btn search-btn" onclick="doSearch()">搜索</div>
+        </div>
+      </div>
+      <div class="kb-home-indicator"><div class="bar"></div></div>
+    </div>
+  </div>
+
+  <!-- Page 5: Team Cashback Popup (from home) -->
+  <div class="page" id="page-cashback-popup">
+    <!-- MP header background visible above popup -->
+    <div class="popup-bg-header">
+      <div class="status-bar">
+        <span class="time" style="color:white">9:00</span>
+        <img class="icons" src="images/icon_union_status.svg" alt="status" style="filter:brightness(10)">
+      </div>
+      <div class="mp-header" style="background:transparent;">
+        <div class="back-group">
+          <div class="back-btn"><img src="images/icon_back.svg" alt="back"></div>
+          <div class="divider"></div>
+          <div class="home-btn"><img src="images/icon_home.svg" alt="home"></div>
+        </div>
+        <div class="title" style="color:white;">微信支付全球有礼</div>
+        <div class="func"><img src="images/icon_mp_func.svg" alt="func" style="filter:brightness(10);"></div>
+      </div>
+    </div>
+    <!-- Dark mask -->
+    <div class="popup-mask"></div>
+    <!-- Popup content -->
+    <div class="popup-content" style="z-index:25;">
+      <div class="popup-header">
+        <div class="popup-header-title">
+          <h2>请确认组队返现码</h2>
+          <div class="close-btn" onclick="goTo('page-search-after')"><img src="images/icon_close.svg" alt="close"></div>
+        </div>
+      </div>
+      <div class="tips-section">
+        <div class="tips-card">
+          <div class="tips-content">
+            <div class="tips-badge">Tips</div>
+            <p class="tips-text">此码为"<span class="highlight">三井购物公园组队返现</span>"活动的组队码，点击加入</p>
+          </div>
+          <img class="tips-poster" src="images/poster_image.png" alt="活动海报">
+        </div>
+      </div>
+      <div class="code-boxes" style="margin-top:0;">
+        <div class="code-box">C</div>
+        <div class="code-box">N</div>
+        <div class="code-box">1</div>
+        <div class="code-box">0</div>
+        <div class="code-box">4</div>
+        <div class="code-box">3</div>
+      </div>
+      <div class="popup-buttons" style="padding-top:28px;">
+        <button class="popup-btn cancel" onclick="goTo('page-search-after')">取消</button>
+        <button class="popup-btn confirm" onclick="showResultChoice('cashback')">加入队伍</button>
+      </div>
+    </div>
+    <!-- Simple keyboard (4 rows, no suggestion, no func row) -->
+    <div class="ios-keyboard-simple" style="position:absolute;bottom:0;left:0;z-index:10;">
+      <div class="kb-keys-area">
+        <div class="kb-row">
+          <div class="kb-key">q</div><div class="kb-key">w</div><div class="kb-key">e</div><div class="kb-key">r</div>
+          <div class="kb-key">t</div><div class="kb-key">y</div><div class="kb-key">u</div><div class="kb-key">i</div>
+          <div class="kb-key">o</div><div class="kb-key">p</div>
+        </div>
+        <div class="kb-row row-middle">
+          <div class="kb-key">a</div><div class="kb-key">s</div><div class="kb-key">d</div><div class="kb-key">f</div>
+          <div class="kb-key">g</div><div class="kb-key">h</div><div class="kb-key">j</div><div class="kb-key">k</div>
+          <div class="kb-key">l</div>
+        </div>
+        <div class="kb-row">
+          <div class="kb-key special shift-key"><img src="images/icon_shift.svg" alt="⇧"></div>
+          <div class="kb-key">z</div><div class="kb-key">x</div><div class="kb-key">c</div><div class="kb-key">v</div>
+          <div class="kb-key">b</div><div class="kb-key">n</div><div class="kb-key">m</div>
+          <div class="kb-key special delete-key"><img src="images/icon_delete.svg" alt="⌫"></div>
+        </div>
+        <div class="kb-func-row">
+          <div class="kb-func-btn num-btn">123</div>
+          <div class="kb-func-btn emoji-btn">😊</div>
+          <div class="kb-func-btn space-btn">空格</div>
+          <div class="kb-func-btn" style="flex:0 0 72px;background:#adb3bc;font-size:16px;color:black;">换行</div>
+        </div>
+      </div>
+      <div class="kb-home-indicator"><div class="bar"></div></div>
+    </div>
+  </div>
+
+  <!-- Page 6: Rate Team Popup (from region) -->
+  <div class="page" id="page-rate-popup">
+    <!-- MP header background -->
+    <div class="popup-bg-header">
+      <div class="status-bar">
+        <span class="time" style="color:white">9:00</span>
+        <img class="icons" src="images/icon_union_status.svg" alt="status" style="filter:brightness(10)">
+      </div>
+      <div class="mp-header" style="background:transparent;">
+        <div class="back-group">
+          <div class="back-btn"><img src="images/icon_back.svg" alt="back"></div>
+          <div class="divider"></div>
+          <div class="home-btn"><img src="images/icon_home.svg" alt="home"></div>
+        </div>
+        <div class="title" style="color:white;">微信支付全球有礼</div>
+        <div class="func"><img src="images/icon_mp_func.svg" alt="func" style="filter:brightness(10);"></div>
+      </div>
+    </div>
+    <div class="popup-mask"></div>
+    <div class="popup-content" style="z-index:25;">
+      <div class="popup-header">
+        <div class="popup-header-title">
+          <h2>请确认汇率组队码</h2>
+          <div class="close-btn" onclick="goTo('page-search-after')"><img src="images/icon_close.svg" alt="close"></div>
+        </div>
+      </div>
+      <div class="tips-section">
+        <div class="tips-card">
+          <div class="tips-content">
+            <div class="tips-badge">Tips</div>
+            <p class="tips-text">此码为"<span class="highlight">汇率组队</span>"活动的组队码，点击加入</p>
+          </div>
+          <img class="tips-poster" src="images/poster_image.png" alt="活动海报">
+        </div>
+      </div>
+      <div class="code-boxes" style="margin-top:0;">
+        <div class="code-box">C</div>
+        <div class="code-box">N</div>
+        <div class="code-box">1</div>
+        <div class="code-box">0</div>
+        <div class="code-box">4</div>
+        <div class="code-box">3</div>
+      </div>
+      <div class="popup-buttons" style="padding-top:28px;">
+        <button class="popup-btn cancel" onclick="goTo('page-search-after')">取消</button>
+        <button class="popup-btn confirm" onclick="showResultChoice('rate')">加入队伍</button>
+      </div>
+    </div>
+    <!-- Simple keyboard -->
+    <div class="ios-keyboard-simple" style="position:absolute;bottom:0;left:0;z-index:10;">
+      <div class="kb-keys-area">
+        <div class="kb-row">
+          <div class="kb-key">q</div><div class="kb-key">w</div><div class="kb-key">e</div><div class="kb-key">r</div>
+          <div class="kb-key">t</div><div class="kb-key">y</div><div class="kb-key">u</div><div class="kb-key">i</div>
+          <div class="kb-key">o</div><div class="kb-key">p</div>
+        </div>
+        <div class="kb-row row-middle">
+          <div class="kb-key">a</div><div class="kb-key">s</div><div class="kb-key">d</div><div class="kb-key">f</div>
+          <div class="kb-key">g</div><div class="kb-key">h</div><div class="kb-key">j</div><div class="kb-key">k</div>
+          <div class="kb-key">l</div>
+        </div>
+        <div class="kb-row">
+          <div class="kb-key special shift-key"><img src="images/icon_shift.svg" alt="⇧"></div>
+          <div class="kb-key">z</div><div class="kb-key">x</div><div class="kb-key">c</div><div class="kb-key">v</div>
+          <div class="kb-key">b</div><div class="kb-key">n</div><div class="kb-key">m</div>
+          <div class="kb-key special delete-key"><img src="images/icon_delete.svg" alt="⌫"></div>
+        </div>
+        <div class="kb-func-row">
+          <div class="kb-func-btn num-btn">123</div>
+          <div class="kb-func-btn emoji-btn">😊</div>
+          <div class="kb-func-btn space-btn">空格</div>
+          <div class="kb-func-btn" style="flex:0 0 72px;background:#adb3bc;font-size:16px;color:black;">换行</div>
+        </div>
+      </div>
+      <div class="kb-home-indicator"><div class="bar"></div></div>
+    </div>
+  </div>
+
+  <!-- Page 7: Join Success -->
+  <div class="page" id="page-success">
+    <div class="success-page-bg">
+      <!-- Status bar + MP header -->
+      <div class="status-bar">
+        <span class="time">9:00</span>
+        <img class="icons" src="images/icon_union_status.svg" alt="status">
+      </div>
+      <div class="mp-header">
+        <div class="back-group">
+          <div class="back-btn" onclick="goTo('page-nav')"><img src="images/icon_back2.svg" alt="back"></div>
+          <div class="divider"></div>
+          <div class="home-btn"><img src="images/icon_home.svg" alt="home"></div>
+        </div>
+        <div class="title">微信支付全球有礼</div>
+        <div class="func"><img src="images/icon_mp_func.svg" alt="func"></div>
+      </div>
+
+      <!-- Header with avatar and info -->
+      <div class="success-header-area">
+        <img class="success-avatar" src="images/success_avatar.png" alt="商户头像">
+        <div class="success-info">
+          <h3>日本三井购物公园</h3>
+          <div class="sub-row">
+            <span class="sub-text">查看活动门店查看活动门店</span>
+            <button class="store-btn">活动门店</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card section -->
+      <div class="card-section">
+        <div class="card-title-area">
+          <h2>组队消费 最高享3%返现</h2>
+          <p class="card-sub">部分门店参与 领完即止｜活动截止2025年8月31日</p>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-row">
+          <div class="stat-item">
+            <span class="stat-label">我累计消费</span>
+            <div class="stat-value">
+              <span class="stat-number">0.00</span>
+              <span class="stat-unit">元</span>
+            </div>
+            <span class="stat-desc">活动门店消费可累计</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <span class="stat-label">我待返现</span>
+            <div class="stat-value">
+              <span class="stat-number">0.00</span>
+              <span class="stat-unit">元</span>
+            </div>
+            <span class="stat-desc">最高1000元 单人也可享</span>
+          </div>
+        </div>
+
+        <!-- Progress section -->
+        <div style="margin:0 12px;">
+          <img src="images/icon_wave.svg" alt="wave" style="width:100%;height:35px;display:block;">
+        </div>
+        <div class="progress-section">
+          <div class="progress-title">
+            <span>队伍至少<span class="gold">2</span>人消费 可冲3%组队返现</span>
+          </div>
+          <div class="progress-bar-area">
+            <div class="progress-tag">
+              <span class="tag">未开启组队返现</span>
+              <div class="tag-line"></div>
+            </div>
+            <div class="progress-track"></div>
+          </div>
+          <div class="progress-milestones">
+            <div class="milestone">
+              <div class="milestone-dot"><img src="images/icon_milestone.svg" alt=""></div>
+              <div class="milestone-text"><p>队伍满3千元</p><p>个人消费返2%</p></div>
+            </div>
+            <div class="milestone">
+              <div class="milestone-dot"><img src="images/icon_milestone.svg" alt=""></div>
+              <div class="milestone-text"><p>队伍满6千元</p><p>个人消费返2.5%</p></div>
+            </div>
+            <div class="milestone">
+              <div class="milestone-dot"><img src="images/icon_milestone.svg" alt=""></div>
+              <div class="milestone-text"><p>队伍满1.2万元</p><p>个人消费返3%</p></div>
+            </div>
+          </div>
+
+          <!-- Team avatars -->
+          <div class="team-section">
+            <div class="team-avatars">
+              <div class="team-avatar-item">
+                <div class="team-avatar-circle">
+                  <img src="images/icon_no_avatar.svg" alt="me">
+                </div>
+                <span class="team-avatar-label">未消费</span>
+              </div>
+              <div class="team-avatar-item">
+                <div class="team-avatar-circle empty">
+                  <img src="images/icon_plus.svg" alt="+" style="width:13px;height:13px;">
+                </div>
+                <span class="team-avatar-label">待加入</span>
+              </div>
+            </div>
+            <div class="invite-btn">
+              邀请好友组队
+              <span class="invite-badge">2人成队 最多5人</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Links -->
+        <div class="links-row">
+          <a class="danger">退出队伍</a>
+          <a>消费明细</a>
+          <a>活动攻略</a>
+        </div>
+      </div>
+
+      <div class="home-indicator"><div class="home-indicator-bar"></div></div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="success-toast">
+      <div class="toast-bg"></div>
+      <div class="toast-icon"><img src="images/icon_check.svg" alt="✓"></div>
+      <div class="toast-text">成功加入队伍</div>
+    </div>
+  </div>
+
+  <!-- Page 8: Team Full -->
+  <div class="page" id="page-full">
+    <!-- Upper red section with decorations -->
+    <div class="full-page-upper">
+      <div class="status-bar">
+        <span class="time" style="color:white">9:00</span>
+        <img class="icons" src="images/icon_union_status.svg" alt="status" style="filter:brightness(10)">
+      </div>
+      <div class="mp-header" style="background:transparent;">
+        <div class="back-group" style="background:rgba(0,0,0,0.08);border-color:rgba(255,255,255,0.6);">
+          <div class="back-btn"><img src="images/icon_union_back.svg" alt="back" style="filter:brightness(10);"></div>
+          <div class="divider" style="background:rgba(255,255,255,0.4);"></div>
+          <div class="home-btn"><img src="images/icon_home.svg" alt="home" style="filter:brightness(10);"></div>
+        </div>
+        <div class="title" style="color:white;">微信支付全球有礼</div>
+        <div class="func"><img src="images/icon_mp_func2.svg" alt="func"></div>
+      </div>
+
+      <!-- 3D Decorations -->
+      <div class="decorations">
+        <!-- Activity title -->
+        <div style="text-align:center;padding:8px 0 4px;">
+          <p style="font-size:14px;font-weight:500;color:white;">日本三井购物公园</p>
+          <p style="font-size:22px;font-weight:800;color:#ffe387;margin:4px 0;font-family:'MFDianHei','PingFang SC',sans-serif;">组队消费 最高享3%返现</p>
+          <p style="font-size:12px;color:rgba(255,255,255,0.7);line-height:18px;">部分门店参与 领完即止｜活动截止2025年8月31日</p>
+        </div>
+        <!-- Scattered 3D elements -->
+        <div class="deco-item" style="left:6px;top:10px;width:60px;height:60px;"><img src="images/3d_cat.png" alt=""></div>
+        <div class="deco-item" style="right:10px;top:5px;width:50px;height:50px;"><img src="images/3d_gift.png" alt=""></div>
+        <div class="deco-item" style="left:40px;top:80px;width:40px;height:40px;"><img src="images/3d_coin.png" alt=""></div>
+        <div class="deco-item" style="right:40px;top:90px;width:48px;height:48px;"><img src="images/3d_giftbox.png" alt=""></div>
+        <div class="deco-item" style="left:160px;top:110px;width:36px;height:36px;"><img src="images/3d_bag.png" alt=""></div>
+        <div class="deco-item" style="right:120px;top:70px;width:32px;height:32px;"><img src="images/3d_box.png" alt=""></div>
+        <!-- Store button -->
+        <div style="position:absolute;right:16px;top:8px;background:rgba(0,0,0,0.08);border:0.5px solid rgba(255,255,255,0.6);border-radius:14px;padding:3px 8px;">
+          <span style="font-size:12px;color:white;">查看活动门店</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Semi-transparent overlay -->
+    <div style="position:absolute;top:0;left:0;width:375px;height:812px;background:rgba(0,0,0,0.5);z-index:15;"></div>
+
+    <!-- Bottom sheet -->
+    <div class="team-full-sheet" style="position:absolute;bottom:0;left:0;z-index:20;">
+      <!-- Floating avatar -->
+      <div class="team-full-avatar-float">
+        <img src="images/team_full_avatar.png" alt="商户">
+      </div>
+
+      <div class="team-full-content">
+        <p class="merchant-name">日本三井购物公园</p>
+        <p class="full-title">队伍已满员</p>
+        <p class="full-desc">活动截止2025年8月31日，个人返现最高1000元</p>
+      </div>
+
+      <!-- Progress card -->
+      <div class="team-full-progress">
+        <div class="team-full-progress-card">
+          <div class="team-members-row">
+            <div class="team-member-avatars">
+              <div class="team-member-avatar"><img src="images/icon_no_avatar.svg" alt=""></div>
+              <div class="team-member-avatar"><img src="images/icon_no_avatar.svg" alt=""></div>
+              <div class="team-member-avatar"><img src="images/icon_no_avatar.svg" alt=""></div>
+              <div class="team-member-avatar"><img src="images/icon_no_avatar.svg" alt=""></div>
+              <div class="team-member-avatar"><img src="images/icon_no_avatar.svg" alt=""></div>
+            </div>
+            <span class="team-member-text">队伍已有<span class="red">5</span>名队友，当前享<span class="red">3%</span>返现</span>
+          </div>
+          <!-- Gold tag -->
+          <div class="gold-tag-area">
+            <div class="gold-tag">
+              <span>享</span><span class="num">3</span><span class="pct">%</span><span>组队返现</span>
+            </div>
+            <div class="gold-tag-line"></div>
+          </div>
+          <!-- Progress bar -->
+          <div class="full-progress-track">
+            <div class="full-progress-fill" style="width:88%;"></div>
+          </div>
+          <div class="full-progress-milestones">
+            <div class="full-milestone">
+              <div class="full-milestone-dot"><img src="images/icon_milestone_gold.svg" alt=""></div>
+              <p>队伍满3千元</p><p>个人消费返2%</p>
+            </div>
+            <div class="full-milestone">
+              <div class="full-milestone-dot"><img src="images/icon_milestone_gold.svg" alt=""></div>
+              <p>队伍满6千元</p><p>个人消费返2.5%</p>
+            </div>
+            <div class="full-milestone active">
+              <div class="full-milestone-dot"><img src="images/icon_milestone_active.svg" alt=""></div>
+              <p>队伍满1.2万元</p><p>个人消费返3%</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="team-full-note">
+        单人参与且消费满<span class="red">1000</span>元，也可享<span class="red">1%</span>返现
+      </div>
+
+      <!-- Buttons -->
+      <div class="popup-buttons" style="padding:24px 20px 20px;">
+        <button class="popup-btn cancel" onclick="goTo('page-nav')" style="border-radius:53px;">我知道了</button>
+        <button class="popup-btn confirm" onclick="goTo('page-nav')" style="border-radius:44px;">创建新队伍</button>
+      </div>
+      <div class="home-indicator" style="position:relative;"><div class="home-indicator-bar"></div></div>
+    </div>
+  </div>
+
+  <!-- Result Choice Overlay -->
+  <div class="page" id="page-result-choice" style="display:none;">
+    <div class="result-choice">
+      <h2>选择结果页面</h2>
+      <p>模拟不同的加入结果</p>
+      <button class="result-btn success" onclick="goTo('page-success')">
+        <span class="emoji">🎉</span> 成功加入队伍
+      </button>
+      <button class="result-btn full" onclick="goTo('page-full')">
+        <span class="emoji">😔</span> 队伍已满员
+      </button>
+      <button class="result-btn full" onclick="goBack()" style="margin-top:20px;font-size:14px;padding:12px;">
+        ← 返回上一步
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  let currentPage = 'page-nav';
+  let searchSource = 'home';
+  let history = ['page-nav'];
+
+  function goTo(pageId) {
+    document.getElementById(currentPage).classList.remove('active');
+    document.getElementById(currentPage).style.display = 'none';
+    document.getElementById(pageId).classList.add('active');
+    document.getElementById(pageId).style.display = 'block';
+    if (pageId !== currentPage) {
+      history.push(pageId);
+    }
+    currentPage = pageId;
+
+    // Auto-hide toast after 2s on success page
+    if (pageId === 'page-success') {
+      const toast = document.getElementById('success-toast');
+      toast.style.display = 'flex';
+      toast.style.opacity = '1';
+      toast.style.transition = 'none';
+      setTimeout(() => { toast.style.transition = 'opacity 0.5s'; toast.style.opacity = '0'; }, 2000);
+      setTimeout(() => { toast.style.display = 'none'; }, 2500);
+    }
+  }
+
+  function goBack() {
+    if (history.length > 1) {
+      history.pop();
+      const prevPage = history[history.length - 1];
+      goTo(prevPage);
+      if (history.length > 1 && history[history.length-1] === history[history.length-2]) {
+        history.pop();
+      }
+    } else {
+      goTo('page-nav');
+    }
+  }
+
+  function startSearch(source) {
+    searchSource = source;
+    goTo('page-search-before');
+  }
+
+  function doPaste() {
+    goTo('page-search-after');
+  }
+
+  function doSearch() {
+    if (searchSource === 'home') {
+      goTo('page-cashback-popup');
+    } else {
+      goTo('page-rate-popup');
+    }
+  }
+
+  function showResultChoice(type) {
+    goTo('page-result-choice');
+  }
+
+  // Initialize
+  document.querySelectorAll('.page').forEach(p => {
+    if (!p.classList.contains('active')) p.style.display = 'none';
+  });
+</script>
+</body>
+</html>
