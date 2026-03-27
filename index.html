@@ -617,6 +617,298 @@
   button:focus-visible, [role="button"]:focus-visible {
     outline: 2px solid #007AFF; outline-offset: 2px;
   }
+
+  /* ===== PHASE 2: SEARCH FLOW STYLES ===== */
+
+  /* Search expand page - search history / suggestions */
+  .search-expand-body {
+    background: white; flex: 1;
+  }
+  .search-expand-header-img {
+    width: 375px; height: auto; display: block;
+  }
+  .search-expand-content {
+    padding: 0 16px;
+  }
+
+  /* Search input bar (on expand page) */
+  .search-expand-input-bar {
+    display: flex; align-items: center; padding: 8px 12px;
+    background: white;
+  }
+  .search-expand-input-bar .search-input-wrap {
+    flex: 1; height: 36px; background: #f5f5f5; border-radius: 18px;
+    display: flex; align-items: center; padding: 0 12px; gap: 8px;
+  }
+  .search-expand-input-bar .search-input-wrap .si-icon {
+    width: 14px; height: 14px; color: #ababaf; font-size: 14px; flex-shrink: 0;
+  }
+  .search-expand-input-bar .search-input-wrap input {
+    border: none; outline: none; flex: 1; font-size: 14px; color: rgba(0,0,0,0.9);
+    background: transparent; height: 100%;
+  }
+  .search-expand-input-bar .search-input-wrap input::placeholder { color: #ababaf; }
+  .search-expand-input-bar .cancel-btn {
+    margin-left: 10px; font-size: 14px; color: #576b95; cursor: pointer; flex-shrink: 0;
+  }
+
+  /* Section titles */
+  .se-section { margin-top: 20px; }
+  .se-section-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 12px;
+  }
+  .se-section-header .se-title {
+    font-size: 14px; font-weight: 600; color: rgba(0,0,0,0.9);
+  }
+  .se-section-header .se-action {
+    width: 20px; height: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+  }
+  .se-section-header .se-action img { width: 16px; height: 16px; }
+
+  /* Tags */
+  .se-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .se-tag {
+    padding: 6px 12px; background: #f5f5f5; border-radius: 16px;
+    font-size: 13px; color: #666; cursor: pointer; white-space: nowrap;
+  }
+  .se-tag:active { background: #e8e8e8; }
+
+  /* Hot recommend */
+  .se-hot-item {
+    display: flex; align-items: center; gap: 8px;
+    padding: 10px 0; border-bottom: 0.5px solid #f0f0f0;
+    cursor: pointer;
+  }
+  .se-hot-item:last-child { border-bottom: none; }
+  .se-hot-item .hot-icon { width: 16px; height: 16px; flex-shrink: 0; }
+  .se-hot-item .hot-icon img { width: 100%; height: 100%; }
+  .se-hot-item .hot-text {
+    flex: 1; font-size: 14px; color: rgba(0,0,0,0.7);
+    background: #f5f5f5; border-radius: 4px; padding: 8px 12px;
+  }
+
+  /* ===== Search Result Page (reference style) ===== */
+  .sr-page { background: #f5f5f5; }
+
+  /* Red gradient top bar */
+  .sr-top-bar {
+    background: linear-gradient(180deg, #e64c30 0%, #d44028 100%);
+    padding-bottom: 0;
+  }
+
+  /* Search input on result page */
+  .sr-search-row {
+    display: flex; align-items: center; padding: 0 12px 10px;
+    background: linear-gradient(180deg, #d44028 0%, #c43d27 100%);
+  }
+  .sr-search-box {
+    flex: 1; height: 36px; background: white;
+    border-bottom: 2px solid #e64c30;
+    display: flex; align-items: center; padding: 0 10px; gap: 6px;
+  }
+  .sr-search-box .sr-icon { font-size: 14px; color: #ababaf; }
+  .sr-search-box .sr-text { flex: 1; font-size: 14px; color: rgba(0,0,0,0.9); }
+  .sr-search-box .sr-clear {
+    width: 18px; height: 18px; background: #c8c8c8; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; color: white; cursor: pointer; flex-shrink: 0;
+  }
+
+  /* Merchant list */
+  .sr-merchant-list { background: white; }
+  .sr-merchant-item {
+    display: flex; align-items: flex-start; padding: 14px 16px;
+    border-bottom: 0.5px solid #f0f0f0; cursor: pointer;
+    gap: 12px;
+  }
+  .sr-merchant-item:active { background: #f8f8f8; }
+  .sr-merchant-logo {
+    width: 56px; height: 56px; border-radius: 8px; flex-shrink: 0;
+    overflow: hidden; display: flex; align-items: center; justify-content: center;
+    background: #f0f0f0;
+  }
+  .sr-merchant-logo img { width: 100%; height: 100%; object-fit: cover; }
+  .sr-merchant-logo.circle { border-radius: 50%; }
+  .sr-merchant-info { flex: 1; min-width: 0; }
+  .sr-merchant-name-row {
+    display: flex; align-items: center; gap: 6px; margin-bottom: 2px;
+  }
+  .sr-merchant-name {
+    font-size: 16px; font-weight: 500; color: rgba(0,0,0,0.9);
+  }
+  .sr-merchant-distance {
+    font-size: 12px; color: #999; flex-shrink: 0;
+  }
+  .sr-merchant-subtitle {
+    font-size: 12px; color: #999; margin-bottom: 6px;
+  }
+  .sr-merchant-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 8px; }
+  .sr-merchant-tag {
+    padding: 2px 6px; border: 0.5px solid #f0a060; border-radius: 3px;
+    font-size: 11px; color: #f0a060; white-space: nowrap;
+  }
+
+  /* Coupon display in merchant item */
+  .sr-coupons { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
+  .sr-coupon {
+    width: 62px; height: 54px; background: linear-gradient(135deg, #fff0e6, #ffe8d6);
+    border: 0.5px solid #ffd4a8; border-radius: 8px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .sr-coupon .coupon-amount {
+    font-size: 18px; font-weight: 700; color: #e64c30;
+  }
+  .sr-coupon .coupon-label {
+    font-size: 10px; color: #e64c30;
+  }
+
+  .sr-merchant-arrow {
+    width: 16px; height: 56px; display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; color: #ccc; font-size: 14px;
+  }
+
+  /* Separator "以下为相似商家" */
+  .sr-separator {
+    display: flex; align-items: center; padding: 12px 16px;
+    background: #f7f7f7;
+  }
+  .sr-separator-line { flex: 1; height: 0.5px; background: #ddd; }
+  .sr-separator-text {
+    padding: 0 12px; font-size: 12px; color: #989494; white-space: nowrap;
+  }
+
+  /* Hot activity section */
+  .sr-hot-activity {
+    margin: 12px 16px; background: linear-gradient(135deg, #ffefef, #fff5f0);
+    border-radius: 12px; padding: 16px;
+    border: 0.5px solid #ffd6d6;
+  }
+  .sr-hot-title {
+    font-size: 15px; font-weight: 600; color: rgba(0,0,0,0.9);
+    margin-bottom: 8px;
+  }
+  .sr-hot-desc { font-size: 13px; color: #666; }
+
+  /* ===== Merchant Detail Page ===== */
+  .md-page { background: #f5f5f5; }
+  .md-top-bar {
+    background: linear-gradient(180deg, #f0f0f0 0%, #e8e8e8 100%);
+  }
+
+  /* Merchant header info */
+  .md-merchant-header {
+    background: white; padding: 16px; display: flex; align-items: center; gap: 12px;
+  }
+  .md-merchant-avatar {
+    width: 52px; height: 52px; border-radius: 50%; flex-shrink: 0;
+    overflow: hidden; background: #f0f0f0;
+  }
+  .md-merchant-avatar img { width: 100%; height: 100%; object-fit: cover; }
+  .md-merchant-info { flex: 1; }
+  .md-merchant-info .md-name-row {
+    display: flex; align-items: center; gap: 6px; margin-bottom: 4px;
+  }
+  .md-merchant-info .md-name {
+    font-size: 18px; font-weight: 600; color: rgba(0,0,0,0.9);
+  }
+  .md-merchant-info .md-expand {
+    font-size: 12px; color: #999; cursor: pointer;
+  }
+  .md-merchant-info .md-tag-row { display: flex; gap: 6px; align-items: center; }
+  .md-merchant-info .md-tag {
+    padding: 2px 8px; border: 0.5px solid #f0a060; border-radius: 3px;
+    font-size: 11px; color: #f0a060;
+  }
+  .md-fav-btn {
+    width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; font-size: 20px; color: #ccc; cursor: pointer;
+  }
+
+  /* Nearby store card */
+  .md-store-card {
+    margin: 12px 16px; background: linear-gradient(135deg, #e8f4fd, #dbeefa);
+    border-radius: 12px; padding: 14px; position: relative;
+  }
+  .md-store-card .md-store-header {
+    display: flex; align-items: center; gap: 6px; margin-bottom: 8px;
+  }
+  .md-store-card .md-store-pin { font-size: 14px; }
+  .md-store-card .md-store-label { font-size: 13px; color: #333; }
+  .md-store-card .md-store-name { font-size: 13px; font-weight: 500; color: #333; }
+  .md-store-card .md-store-distance { font-size: 12px; color: #666; }
+  .md-store-card .md-store-address {
+    font-size: 12px; color: #666; line-height: 18px; margin-bottom: 10px;
+  }
+  .md-store-card .md-store-actions {
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .md-store-card .md-ask-btn {
+    padding: 6px 16px; background: white; border-radius: 16px;
+    font-size: 13px; color: #333; cursor: pointer;
+    border: 0.5px solid #d0d0d0;
+  }
+  .md-store-card .md-more-stores {
+    font-size: 13px; color: #576b95; cursor: pointer;
+  }
+
+  /* Rate benefit card */
+  .md-rate-card {
+    margin: 12px 16px; background: white; border-radius: 12px;
+    padding: 16px; box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  }
+  .md-rate-header {
+    display: flex; align-items: center; gap: 6px; margin-bottom: 12px;
+  }
+  .md-rate-header .md-rate-check {
+    width: 18px; height: 18px; background: #07c160; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; color: white;
+  }
+  .md-rate-header .md-rate-label { font-size: 14px; font-weight: 500; color: #333; }
+  .md-rate-main {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 8px;
+  }
+  .md-rate-main .md-rate-value {
+    font-size: 22px; font-weight: 700; color: rgba(0,0,0,0.9);
+  }
+  .md-rate-main .md-rate-value small { font-size: 14px; font-weight: 400; }
+  .md-rate-main .md-rate-btn {
+    padding: 6px 16px; background: #f0a060; border-radius: 16px;
+    font-size: 13px; color: white; cursor: pointer; border: none;
+  }
+  .md-rate-sub { font-size: 12px; color: #999; margin-bottom: 4px; }
+  .md-rate-detail {
+    font-size: 12px; color: #666; padding: 8px 0; border-top: 0.5px solid #f0f0f0;
+    margin-top: 8px;
+  }
+  .md-rate-upgrade {
+    display: flex; align-items: center; gap: 6px;
+    padding: 8px 0; margin-top: 4px;
+  }
+  .md-rate-upgrade .md-star { font-size: 12px; color: #f0a060; }
+  .md-rate-upgrade .md-upgrade-text { font-size: 12px; color: #666; }
+
+  /* Coupon section */
+  .md-coupon-section {
+    margin: 12px 16px; background: white; border-radius: 12px;
+    padding: 16px; box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  }
+  .md-coupon-title {
+    font-size: 15px; font-weight: 600; color: rgba(0,0,0,0.9); margin-bottom: 4px;
+  }
+  .md-coupon-desc {
+    font-size: 12px; color: #666; line-height: 18px; margin-bottom: 12px;
+  }
+  .md-coupon-badge {
+    display: inline-block; padding: 2px 8px; background: #f0f0f0;
+    border-radius: 4px; font-size: 12px; color: #999;
+  }
+  .md-more-link {
+    text-align: center; padding: 16px; font-size: 14px; color: #576b95; cursor: pointer;
+  }
 </style>
 </head>
 <body>
@@ -634,6 +926,18 @@
       <button class="nav-btn region" onclick="goTo('page-region')">
         <div class="icon">🇯🇵</div>
         <div class="text">从地区页进入<span>日本地区页 → 搜索</span></div>
+        <div class="arrow">›</div>
+      </button>
+      <div style="width:100%;max-width:300px;height:1px;background:rgba(255,255,255,0.2);margin:16px 0;"></div>
+      <p class="subtitle" style="margin-bottom:16px;">🔎 搜索流程</p>
+      <button class="nav-btn home" onclick="goTo('page-home-s2')" style="background:white;">
+        <div class="icon" style="background:#fff0ed;">🏠</div>
+        <div class="text">搜索流程 · 首页入口<span>首页 → 搜索 → 结果 → 详情</span></div>
+        <div class="arrow">›</div>
+      </button>
+      <button class="nav-btn region" onclick="goTo('page-region-s2')">
+        <div class="icon" style="background:rgba(255,255,255,0.15);">🇯🇵</div>
+        <div class="text">搜索流程 · 地区页入口<span>地区页 → 搜索 → 结果 → 详情</span></div>
         <div class="arrow">›</div>
       </button>
     </div>
@@ -1221,6 +1525,383 @@
     </div>
   </div>
 
+  <!-- ===== PHASE 2: SEARCH FLOW PAGES ===== -->
+
+  <!-- S2 Page: Home Search (Phase 2) -->
+  <div class="page" id="page-home-s2">
+    <div class="home-bg-top">
+      <img src="images/home_top.png" alt="首页上半部分">
+    </div>
+    <div class="search-bar" onclick="goTo('page-search-expand')">
+      <div class="search-bar-inner">
+        <span class="search-icon">🔍</span>
+        <span class="placeholder">输入商品或商户名称，搜本地优惠</span>
+      </div>
+    </div>
+    <div class="home-bg-bottom">
+      <img src="images/home_top.png" alt="首页下半部分">
+    </div>
+  </div>
+
+  <!-- S2 Page: Region Search (Phase 2) -->
+  <div class="page" id="page-region-s2">
+    <div class="region-bg-top">
+      <img src="images/japan_top.png" alt="地区页上半部分">
+    </div>
+    <div class="search-bar" onclick="goTo('page-search-expand')">
+      <div class="search-bar-inner">
+        <span class="search-icon">🔍</span>
+        <span class="placeholder">输入商品或商户名称，搜本地优惠</span>
+      </div>
+    </div>
+    <div class="region-bg-bottom">
+      <img src="images/japan_top.png" alt="地区页下半部分">
+    </div>
+  </div>
+
+  <!-- S2 Page: Search Expand (with history, suggestions, keyboard) -->
+  <div class="page" id="page-search-expand">
+    <div class="search-header">
+      <div class="status-bar">
+        <span class="time" style="color:white">9:00</span>
+        <img class="icons" src="images/icon_union_status.svg" alt="status" style="filter:brightness(10)">
+      </div>
+      <div class="search-mp-bar">
+        <div class="back-arrow" onclick="goBack()">
+          <svg width="10" height="18" viewBox="0 0 10 18" fill="none"><path d="M9 1L1 9L9 17" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="home-icon-btn" onclick="goTo('page-nav')">
+          <img src="images/icon_home.svg" alt="home" style="filter:brightness(0) invert(1);">
+        </div>
+        <div class="search-title">搜索</div>
+        <div class="capsule-btn">
+          <img src="images/icon_mp_func.svg" alt="func" style="filter:brightness(10);">
+        </div>
+      </div>
+      <div class="search-input-row">
+        <div class="input-container">
+          <div class="input-box">
+            <span class="search-icon-sm">🔍</span>
+            <input type="text" id="s2-search-input" placeholder="输入商品或商户名称，搜本地优惠" readonly>
+            <span id="s2-cursor" style="width:2px;height:18px;background:#e64c30;animation:blink 1s infinite;flex-shrink:0;"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="search-red-divider"></div>
+
+    <!-- Search content area -->
+    <div class="search-expand-body" style="overflow-y:auto;height:336px;">
+      <div class="search-expand-content">
+        <!-- Search History -->
+        <div class="se-section">
+          <div class="se-section-header">
+            <span class="se-title">搜索记录</span>
+            <div class="se-action">
+              <img src="images/icon_delete_history.svg" alt="删除">
+            </div>
+          </div>
+          <div class="se-tags">
+            <span class="se-tag" onclick="doSearchS2('沙沙')">沙沙</span>
+            <span class="se-tag" onclick="doSearchS2('sasa')">sasa</span>
+            <span class="se-tag" onclick="doSearchS2('麦')">麦</span>
+            <span class="se-tag" onclick="doSearchS2('711')">711</span>
+            <span class="se-tag" onclick="doSearchS2('麦')">麦</span>
+            <span class="se-tag" onclick="doSearchS2('711')">711</span>
+          </div>
+        </div>
+
+        <!-- Guess you want -->
+        <div class="se-section">
+          <div class="se-section-header">
+            <span class="se-title">猜你想搜</span>
+            <div class="se-action">
+              <img src="images/icon_refresh.svg" alt="刷新">
+            </div>
+          </div>
+          <div class="se-tags">
+            <span class="se-tag" onclick="doSearchS2('香港万宁')">香港万宁</span>
+            <span class="se-tag" onclick="doSearchS2('大家乐满40-3')">大家乐满40-3</span>
+            <span class="se-tag" onclick="doSearchS2('罗森免费大福')">罗森免费大福</span>
+          </div>
+        </div>
+
+        <!-- Hot Recommend -->
+        <div class="se-section" style="margin-bottom: 16px;">
+          <div class="se-section-header">
+            <span class="se-title">🔥 热门推荐</span>
+          </div>
+          <div class="se-hot-item" onclick="doSearchS2('万宁')">
+            <div class="hot-text">万宁$25优惠券</div>
+          </div>
+          <div class="se-hot-item">
+            <div class="hot-text">资源位</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- iOS Keyboard -->
+    <div class="ios-keyboard">
+      <div class="kb-suggestion-row">
+        <div class="suggestion-item">我</div>
+        <div class="suggestion-item">你</div>
+        <div class="suggestion-item">那</div>
+        <div class="suggestion-item">好</div>
+        <div class="suggestion-item">他</div>
+        <div class="suggestion-item">是</div>
+        <div class="suggestion-item">不</div>
+        <div class="suggestion-item">这</div>
+        <div class="suggestion-item">在</div>
+        <div class="suggestion-collapse">⌄</div>
+      </div>
+      <div class="kb-keys-area">
+        <div class="kb-row">
+          <div class="kb-key">q</div><div class="kb-key">w</div><div class="kb-key">e</div><div class="kb-key">r</div>
+          <div class="kb-key">t</div><div class="kb-key">y</div><div class="kb-key">u</div><div class="kb-key">i</div>
+          <div class="kb-key">o</div><div class="kb-key">p</div>
+        </div>
+        <div class="kb-row row-middle">
+          <div class="kb-key">a</div><div class="kb-key">s</div><div class="kb-key">d</div><div class="kb-key">f</div>
+          <div class="kb-key">g</div><div class="kb-key">h</div><div class="kb-key">j</div><div class="kb-key">k</div>
+          <div class="kb-key">l</div>
+        </div>
+        <div class="kb-row">
+          <div class="kb-key special shift-key"><img src="images/icon_shift.svg" alt="⇧"></div>
+          <div class="kb-key">z</div><div class="kb-key">x</div><div class="kb-key">c</div><div class="kb-key">v</div>
+          <div class="kb-key">b</div><div class="kb-key">n</div><div class="kb-key">m</div>
+          <div class="kb-key special delete-key"><img src="images/icon_delete.svg" alt="⌫"></div>
+        </div>
+        <div class="kb-func-row">
+          <div class="kb-func-btn num-btn">123</div>
+          <div class="kb-func-btn emoji-btn">😊</div>
+          <div class="kb-func-btn space-btn">空格</div>
+          <div class="kb-func-btn search-btn" onclick="doSearchS2('万宁')">搜索</div>
+        </div>
+      </div>
+      <div class="kb-home-indicator"><div class="bar"></div></div>
+    </div>
+  </div>
+
+  <!-- S2 Page: Search Result (reference style with coupons) -->
+  <div class="page" id="page-search-result">
+    <div class="sr-page" style="min-height:812px;">
+      <!-- Top red bar with status + mp header -->
+      <div class="sr-top-bar">
+        <div class="status-bar">
+          <span class="time" style="color:white">9:00</span>
+          <img class="icons" src="images/icon_union_status.svg" alt="status" style="filter:brightness(10)">
+        </div>
+        <div class="search-mp-bar">
+          <div class="back-arrow" onclick="goBack()">
+            <svg width="10" height="18" viewBox="0 0 10 18" fill="none"><path d="M9 1L1 9L9 17" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="home-icon-btn" onclick="goTo('page-nav')">
+            <img src="images/icon_home.svg" alt="home" style="filter:brightness(0) invert(1);">
+          </div>
+          <div class="search-title">搜索</div>
+          <div class="capsule-btn">
+            <img src="images/icon_mp_func.svg" alt="func" style="filter:brightness(10);">
+          </div>
+        </div>
+      </div>
+
+      <!-- Search row -->
+      <div class="sr-search-row">
+        <div class="sr-search-box">
+          <span class="sr-icon">🔍</span>
+          <span class="sr-text" id="sr-search-text">万宁</span>
+          <div class="sr-clear" onclick="goTo('page-search-expand')">✕</div>
+        </div>
+      </div>
+
+      <!-- Merchant list -->
+      <div class="sr-merchant-list" style="overflow-y:auto;">
+
+        <!-- Merchant 1: 香港万宁 (main result) -->
+        <div class="sr-merchant-item" onclick="goTo('page-merchant-detail')">
+          <div class="sr-merchant-logo">
+            <div style="width:56px;height:56px;background:#f58220;border-radius:8px;display:flex;align-items:center;justify-content:center;">
+              <span style="font-size:11px;font-weight:700;color:white;text-align:center;line-height:1.2;">mannings<br>万宁</span>
+            </div>
+          </div>
+          <div class="sr-merchant-info">
+            <div class="sr-merchant-name-row">
+              <span class="sr-merchant-name">香港万宁</span>
+              <span class="sr-merchant-distance">500m</span>
+            </div>
+            <div class="sr-merchant-subtitle">微信支付专属优惠</div>
+            <div class="sr-merchant-tags">
+              <span class="sr-merchant-tag">线下门店</span>
+              <span class="sr-merchant-tag">购物逛街</span>
+            </div>
+            <div class="sr-coupons">
+              <div class="sr-coupon"><span class="coupon-amount">$25</span><span class="coupon-label">优惠券</span></div>
+              <div class="sr-coupon"><span class="coupon-amount">$25</span><span class="coupon-label">优惠券</span></div>
+              <div class="sr-coupon"><span class="coupon-amount">$25</span><span class="coupon-label">优惠券</span></div>
+            </div>
+          </div>
+          <div class="sr-merchant-arrow">›</div>
+        </div>
+
+        <!-- Separator -->
+        <div class="sr-separator">
+          <div class="sr-separator-line"></div>
+          <span class="sr-separator-text">以下为相似商家</span>
+          <div class="sr-separator-line"></div>
+        </div>
+
+        <!-- Merchant 2: 香港莎莎 -->
+        <div class="sr-merchant-item" onclick="goTo('page-merchant-detail')">
+          <div class="sr-merchant-logo circle">
+            <div style="width:56px;height:56px;background:linear-gradient(135deg,#e91e8c,#d4145a);border-radius:50%;display:flex;align-items:center;justify-content:center;">
+              <span style="font-size:11px;font-weight:700;color:white;text-align:center;line-height:1.2;">Sa Sa</span>
+            </div>
+          </div>
+          <div class="sr-merchant-info">
+            <div class="sr-merchant-name-row">
+              <span class="sr-merchant-name">香港莎莎</span>
+              <span class="sr-merchant-distance">860m</span>
+            </div>
+            <div class="sr-merchant-subtitle">微信支付专属优惠</div>
+            <div class="sr-merchant-tags">
+              <span class="sr-merchant-tag">线下门店</span>
+              <span class="sr-merchant-tag">美容护理</span>
+            </div>
+            <div class="sr-coupons">
+              <div class="sr-coupon"><span class="coupon-amount">$20</span><span class="coupon-label">优惠券</span></div>
+              <div class="sr-coupon"><span class="coupon-amount">$25</span><span class="coupon-label">优惠券</span></div>
+              <div class="sr-coupon"><span class="coupon-amount">$25</span><span class="coupon-label">优惠券</span></div>
+            </div>
+          </div>
+          <div class="sr-merchant-arrow">›</div>
+        </div>
+
+        <!-- Merchant 3: 香港罗森 -->
+        <div class="sr-merchant-item" onclick="goTo('page-merchant-detail')">
+          <div class="sr-merchant-logo circle">
+            <div style="width:56px;height:56px;background:linear-gradient(135deg,#0068b7,#00a0e9);border-radius:50%;display:flex;align-items:center;justify-content:center;">
+              <span style="font-size:10px;font-weight:700;color:white;text-align:center;line-height:1.2;">LAWSON<br>罗森</span>
+            </div>
+          </div>
+          <div class="sr-merchant-info">
+            <div class="sr-merchant-name-row">
+              <span class="sr-merchant-name">香港罗森</span>
+              <span class="sr-merchant-distance">1.1km</span>
+            </div>
+            <div class="sr-merchant-subtitle">微信支付专属优惠</div>
+            <div class="sr-merchant-tags">
+              <span class="sr-merchant-tag">线下门店</span>
+              <span class="sr-merchant-tag">便利店</span>
+            </div>
+            <div class="sr-coupons">
+              <div class="sr-coupon"><span class="coupon-amount">$30</span><span class="coupon-label">优惠券</span></div>
+              <div class="sr-coupon"><span class="coupon-amount">$30</span><span class="coupon-label">优惠券</span></div>
+              <div class="sr-coupon"><span class="coupon-amount">$30</span><span class="coupon-label">优惠券</span></div>
+            </div>
+          </div>
+          <div class="sr-merchant-arrow">›</div>
+        </div>
+
+        <!-- Hot Activity -->
+        <div class="sr-hot-activity">
+          <div class="sr-hot-title">🔥 热门活动</div>
+          <div class="sr-hot-desc">更多商户优惠和活动等你来发现</div>
+        </div>
+
+      </div>
+
+      <div class="home-indicator" style="position:relative;background:#f5f5f5;"><div class="home-indicator-bar"></div></div>
+    </div>
+  </div>
+
+  <!-- S2 Page: Merchant Detail (香港万宁) -->
+  <div class="page" id="page-merchant-detail">
+    <div class="md-page" style="min-height:812px;">
+      <!-- Top bar (grey gradient) -->
+      <div style="background:linear-gradient(180deg, #e8e8e8 0%, #f0f0f0 100%);">
+        <div class="status-bar">
+          <span class="time">9:00</span>
+          <img class="icons" src="images/icon_union_status.svg" alt="status">
+        </div>
+        <div class="mp-header">
+          <div class="back-group">
+            <div class="back-btn" onclick="goBack()"><img src="images/icon_back2.svg" alt="back"></div>
+            <div class="divider"></div>
+            <div class="home-btn" onclick="goTo('page-nav')"><img src="images/icon_home.svg" alt="home"></div>
+          </div>
+          <div class="title">微信支付全球有礼</div>
+          <div class="func"><img src="images/icon_mp_func.svg" alt="func"></div>
+        </div>
+      </div>
+
+      <!-- Merchant header -->
+      <div class="md-merchant-header">
+        <div class="md-merchant-avatar">
+          <div style="width:52px;height:52px;background:#f58220;border-radius:50%;display:flex;align-items:center;justify-content:center;">
+            <span style="font-size:10px;font-weight:700;color:white;text-align:center;line-height:1.2;">mannings<br>万宁</span>
+          </div>
+        </div>
+        <div class="md-merchant-info">
+          <div class="md-name-row">
+            <span class="md-name">香港万宁</span>
+            <span class="md-expand">▾</span>
+          </div>
+          <div class="md-tag-row">
+            <span class="md-tag">线下门店</span>
+          </div>
+        </div>
+        <div class="md-fav-btn">♡</div>
+      </div>
+
+      <!-- Nearby Store Card -->
+      <div class="md-store-card">
+        <div class="md-store-header">
+          <span class="md-store-pin">📍</span>
+          <span class="md-store-label">附近门店</span>
+          <span style="color:#999;font-size:12px;margin:0 4px;">|</span>
+          <span class="md-store-name">万宁 天澤</span>
+          <span class="md-store-distance">（距你9.5km）</span>
+        </div>
+        <div class="md-store-address">新界天水圍天瑞路71,73,75及77號天澤邨商場2樓210A舖</div>
+        <div class="md-store-actions">
+          <div class="md-ask-btn">🗺 问路卡</div>
+          <div class="md-more-stores">查看更多门店 ›</div>
+        </div>
+      </div>
+
+      <!-- Rate Benefit Card -->
+      <div class="md-rate-card">
+        <div class="md-rate-header">
+          <div class="md-rate-check">✓</div>
+          <span class="md-rate-label">商家专享汇率券</span>
+        </div>
+        <div class="md-rate-main">
+          <div class="md-rate-value">100<small>港币</small> = 90.63<small>人民币</small></div>
+          <button class="md-rate-btn">去使用</button>
+        </div>
+        <div class="md-rate-sub">市场价 91.74人民币</div>
+        <div class="md-rate-detail">本店到店使用｜每万元人民币省122.47元</div>
+        <div class="md-rate-upgrade">
+          <span class="md-star">⭐⭐⭐</span>
+          <span class="md-upgrade-text">汇率优惠升级卡 3星 100港币=91.57人民币</span>
+        </div>
+      </div>
+
+      <!-- Coupon Section -->
+      <div class="md-coupon-section">
+        <div class="md-coupon-title">万宁自家品牌$25优惠券</div>
+        <div class="md-coupon-desc">到店 購買万宁自家品牌/Mannings Guardian系列指定商品满$100即减$25</div>
+        <div class="md-coupon-badge">已抢光</div>
+      </div>
+
+      <!-- More local deals -->
+      <div class="md-more-link">更多当地优惠 ›</div>
+
+      <div class="home-indicator" style="position:relative;background:#f5f5f5;"><div class="home-indicator-bar"></div></div>
+    </div>
+  </div>
+
   <!-- Result Choice Overlay -->
   <div class="page" id="page-result-choice" style="display:none;">
     <div class="result-choice">
@@ -1297,6 +1978,18 @@
 
   function showResultChoice(type) {
     goTo('page-result-choice');
+  }
+
+  // ===== Phase 2: Search Flow Functions =====
+  function doSearchS2(keyword) {
+    // Update search input display
+    const input = document.getElementById('s2-search-input');
+    if (input) input.value = keyword;
+    // Update search result text
+    const srText = document.getElementById('sr-search-text');
+    if (srText) srText.textContent = keyword;
+    // Navigate to search result page
+    goTo('page-search-result');
   }
 
   // Initialize
