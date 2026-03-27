@@ -1535,7 +1535,7 @@
     <div class="search-bar" onclick="goTo('page-search-expand')">
       <div class="search-bar-inner">
         <span class="search-icon">🔍</span>
-        <span class="placeholder">输入商品或商户名称，搜本地优惠</span>
+        <span class="placeholder">粘贴组队码 一键加入</span>
       </div>
     </div>
     <div class="home-bg-bottom">
@@ -1580,9 +1580,11 @@
       </div>
       <div class="search-input-row">
         <div class="input-container">
+          <!-- Floating paste label -->
+          <div class="paste-float" id="s2-paste-float" onclick="doPasteS2()">粘贴</div>
           <div class="input-box">
             <span class="search-icon-sm">🔍</span>
-            <input type="text" id="s2-search-input" placeholder="输入商品或商户名称，搜本地优惠" readonly>
+            <input type="text" id="s2-search-input" placeholder="粘贴组队码 一键加入" readonly>
             <span id="s2-cursor" style="width:2px;height:18px;background:#e64c30;animation:blink 1s infinite;flex-shrink:0;"></span>
           </div>
         </div>
@@ -1597,17 +1599,25 @@
         <div class="se-section">
           <div class="se-section-header">
             <span class="se-title">搜索记录</span>
-            <div class="se-action">
-              <img src="images/icon_delete_history.svg" alt="删除">
+            <div class="se-action" id="history-toggle-btn" onclick="toggleSearchHistory()">
+              <svg id="history-arrow-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" style="transition:transform 0.3s ease;transform:rotate(0deg);">
+                <path d="M4 6L8 10L12 6" stroke="#999" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
             </div>
           </div>
-          <div class="se-tags">
+          <div class="se-tags" id="history-tags-container">
             <span class="se-tag" onclick="doSearchS2('沙沙')">沙沙</span>
             <span class="se-tag" onclick="doSearchS2('sasa')">sasa</span>
             <span class="se-tag" onclick="doSearchS2('麦')">麦</span>
             <span class="se-tag" onclick="doSearchS2('711')">711</span>
-            <span class="se-tag" onclick="doSearchS2('麦')">麦</span>
-            <span class="se-tag" onclick="doSearchS2('711')">711</span>
+          </div>
+          <div class="se-tags" id="history-tags-extra" style="display:none;margin-top:8px;">
+            <span class="se-tag" onclick="doSearchS2('优衣库')">优衣库</span>
+            <span class="se-tag" onclick="doSearchS2('药妆')">药妆</span>
+            <span class="se-tag" onclick="doSearchS2('大丸百货')">大丸百货</span>
+            <span class="se-tag" onclick="doSearchS2('松本清')">松本清</span>
+            <span class="se-tag" onclick="doSearchS2('便利店')">便利店</span>
+            <span class="se-tag" onclick="doSearchS2('免税店')">免税店</span>
           </div>
         </div>
 
@@ -1615,27 +1625,13 @@
         <div class="se-section">
           <div class="se-section-header">
             <span class="se-title">猜你想搜</span>
-            <div class="se-action">
-              <img src="images/icon_refresh.svg" alt="刷新">
+            <div class="se-action" id="guess-refresh-btn" onclick="refreshGuessSearch()">
+              <img src="images/icon_refresh.svg" alt="换一批" id="guess-refresh-icon" style="transition:transform 0.5s ease;">
             </div>
           </div>
-          <div class="se-tags">
-            <span class="se-tag" onclick="doSearchS2('香港万宁')">香港万宁</span>
-            <span class="se-tag" onclick="doSearchS2('大家乐满40-3')">大家乐满40-3</span>
-            <span class="se-tag" onclick="doSearchS2('罗森免费大福')">罗森免费大福</span>
-          </div>
-        </div>
-
-        <!-- Hot Recommend -->
-        <div class="se-section" style="margin-bottom: 16px;">
-          <div class="se-section-header">
-            <span class="se-title">🔥 热门推荐</span>
-          </div>
-          <div class="se-hot-item" onclick="doSearchS2('万宁')">
-            <div class="hot-text">万宁$25优惠券</div>
-          </div>
-          <div class="se-hot-item">
-            <div class="hot-text">资源位</div>
+          <div class="se-tags" id="guess-tags-container">
+            <span class="se-tag" onclick="goTo('page-cashback-popup-s2')">日本三井公园组队返现</span>
+            <span class="se-tag" onclick="goTo('page-cashback-popup-s2')">日本集徽章活动</span>
           </div>
         </div>
       </div>
@@ -1677,6 +1673,308 @@
           <div class="kb-func-btn emoji-btn">😊</div>
           <div class="kb-func-btn space-btn">空格</div>
           <div class="kb-func-btn search-btn" onclick="doSearchS2('万宁')">搜索</div>
+        </div>
+      </div>
+      <div class="kb-home-indicator"><div class="bar"></div></div>
+    </div>
+  </div>
+
+  <!-- S2 Page: Search After Paste (Phase 2 - shows CN1043) -->
+  <div class="page" id="page-search-after-s2">
+    <div class="search-header">
+      <div class="status-bar">
+        <span class="time" style="color:white">9:00</span>
+        <img class="icons" src="images/icon_union_status.svg" alt="status" style="filter:brightness(10)">
+      </div>
+      <div class="search-mp-bar">
+        <div class="back-arrow" onclick="goBack()">
+          <svg width="10" height="18" viewBox="0 0 10 18" fill="none"><path d="M9 1L1 9L9 17" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="home-icon-btn" onclick="goTo('page-nav')">
+          <img src="images/icon_home.svg" alt="home" style="filter:brightness(0) invert(1);">
+        </div>
+        <div class="search-title">搜索</div>
+        <div class="capsule-btn">
+          <img src="images/icon_mp_func.svg" alt="func" style="filter:brightness(10);">
+        </div>
+      </div>
+      <div class="search-input-row">
+        <div class="input-container">
+          <div class="input-box">
+            <span class="search-icon-sm">🔍</span>
+            <input type="text" value="CN1043" readonly>
+            <span style="width:2px;height:18px;background:#e64c30;animation:blink 1s infinite;flex-shrink:0;"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="search-red-divider"></div>
+    <div style="flex:1;background:#f5f5f5;height:316px;"></div>
+    <!-- iOS Keyboard with search button -->
+    <div class="ios-keyboard">
+      <div class="kb-suggestion-row">
+        <div class="suggestion-item">我</div>
+        <div class="suggestion-item">你</div>
+        <div class="suggestion-item">胖</div>
+        <div class="suggestion-item">那</div>
+        <div class="suggestion-item">好</div>
+        <div class="suggestion-item">这</div>
+        <div class="suggestion-item">他</div>
+        <div class="suggestion-item">是</div>
+        <div class="suggestion-item">老</div>
+        <div class="suggestion-collapse">⌄</div>
+      </div>
+      <div class="kb-keys-area">
+        <div class="kb-row">
+          <div class="kb-key">q</div><div class="kb-key">w</div><div class="kb-key">e</div><div class="kb-key">r</div>
+          <div class="kb-key">t</div><div class="kb-key">y</div><div class="kb-key">u</div><div class="kb-key">i</div>
+          <div class="kb-key">o</div><div class="kb-key">p</div>
+        </div>
+        <div class="kb-row row-middle">
+          <div class="kb-key">a</div><div class="kb-key">s</div><div class="kb-key">d</div><div class="kb-key">f</div>
+          <div class="kb-key">g</div><div class="kb-key">h</div><div class="kb-key">j</div><div class="kb-key">k</div>
+          <div class="kb-key">l</div>
+        </div>
+        <div class="kb-row">
+          <div class="kb-key special shift-key"><img src="images/icon_shift.svg" alt="⇧"></div>
+          <div class="kb-key">z</div><div class="kb-key">x</div><div class="kb-key">c</div><div class="kb-key">v</div>
+          <div class="kb-key">b</div><div class="kb-key">n</div><div class="kb-key">m</div>
+          <div class="kb-key special delete-key"><img src="images/icon_delete.svg" alt="⌫"></div>
+        </div>
+        <div class="kb-func-row">
+          <div class="kb-func-btn num-btn">123</div>
+          <div class="kb-func-btn emoji-btn">😊</div>
+          <div class="kb-func-btn space-btn">空格</div>
+          <div class="kb-func-btn search-btn" onclick="doSearchCodeS2()">搜索</div>
+        </div>
+      </div>
+      <div class="kb-home-indicator"><div class="bar"></div></div>
+    </div>
+  </div>
+
+  <!-- S2 Page: Team Cashback Confirm Popup (Phase 2 - from search box paste) -->
+  <div class="page" id="page-cashback-confirm-s2">
+    <div class="popup-bg-header">
+      <div class="status-bar">
+        <span class="time" style="color:white">9:00</span>
+        <img class="icons" src="images/icon_union_status.svg" alt="status" style="filter:brightness(10)">
+      </div>
+      <div class="mp-header" style="background:transparent;">
+        <div class="back-group">
+          <div class="back-btn"><img src="images/icon_back.svg" alt="back"></div>
+          <div class="divider"></div>
+          <div class="home-btn"><img src="images/icon_home.svg" alt="home"></div>
+        </div>
+        <div class="title" style="color:white;">微信支付全球有礼</div>
+        <div class="func"><img src="images/icon_mp_func.svg" alt="func" style="filter:brightness(10);"></div>
+      </div>
+    </div>
+    <div class="popup-mask"></div>
+    <div class="popup-content" style="z-index:25;">
+      <div class="popup-header">
+        <div class="popup-header-title">
+          <h2>请确认组队返现码</h2>
+          <div class="close-btn" onclick="goTo('page-search-after-s2')"><img src="images/icon_close.svg" alt="close"></div>
+        </div>
+      </div>
+      <div class="tips-section">
+        <div class="tips-card">
+          <div class="tips-content">
+            <div class="tips-badge">Tips</div>
+            <p class="tips-text">此码为"<span class="highlight">三井购物公园组队返现</span>"活动的组队码，点击加入</p>
+          </div>
+          <img class="tips-poster" src="images/poster_image.png" alt="活动海报">
+        </div>
+      </div>
+      <div class="code-boxes" style="margin-top:0;">
+        <div class="code-box">C</div>
+        <div class="code-box">N</div>
+        <div class="code-box">1</div>
+        <div class="code-box">0</div>
+        <div class="code-box">4</div>
+        <div class="code-box">3</div>
+      </div>
+      <div class="popup-buttons" style="padding-top:28px;">
+        <button class="popup-btn cancel" onclick="goTo('page-search-after-s2')">取消</button>
+        <button class="popup-btn confirm" onclick="showResultChoice('cashback-s2')">加入队伍</button>
+      </div>
+    </div>
+    <div class="ios-keyboard-simple" style="position:absolute;bottom:0;left:0;z-index:10;">
+      <div class="kb-keys-area">
+        <div class="kb-row">
+          <div class="kb-key">q</div><div class="kb-key">w</div><div class="kb-key">e</div><div class="kb-key">r</div>
+          <div class="kb-key">t</div><div class="kb-key">y</div><div class="kb-key">u</div><div class="kb-key">i</div>
+          <div class="kb-key">o</div><div class="kb-key">p</div>
+        </div>
+        <div class="kb-row row-middle">
+          <div class="kb-key">a</div><div class="kb-key">s</div><div class="kb-key">d</div><div class="kb-key">f</div>
+          <div class="kb-key">g</div><div class="kb-key">h</div><div class="kb-key">j</div><div class="kb-key">k</div>
+          <div class="kb-key">l</div>
+        </div>
+        <div class="kb-row">
+          <div class="kb-key special shift-key"><img src="images/icon_shift.svg" alt="⇧"></div>
+          <div class="kb-key">z</div><div class="kb-key">x</div><div class="kb-key">c</div><div class="kb-key">v</div>
+          <div class="kb-key">b</div><div class="kb-key">n</div><div class="kb-key">m</div>
+          <div class="kb-key special delete-key"><img src="images/icon_delete.svg" alt="⌫"></div>
+        </div>
+        <div class="kb-func-row">
+          <div class="kb-func-btn num-btn">123</div>
+          <div class="kb-func-btn emoji-btn">😊</div>
+          <div class="kb-func-btn space-btn">空格</div>
+          <div class="kb-func-btn" style="flex:0 0 72px;background:#adb3bc;font-size:16px;color:black;">换行</div>
+        </div>
+      </div>
+      <div class="kb-home-indicator"><div class="bar"></div></div>
+    </div>
+  </div>
+
+  <!-- S2 Page: Team Cashback Popup (Phase 2 - from guess search / 猜你想搜) -->
+  <!-- Step 1: 空白状态，等待粘贴 -->
+  <div class="page" id="page-cashback-popup-s2">
+    <div class="popup-bg-header">
+      <div class="status-bar">
+        <span class="time" style="color:white">9:00</span>
+        <img class="icons" src="images/icon_union_status.svg" alt="status" style="filter:brightness(10)">
+      </div>
+      <div class="mp-header" style="background:transparent;">
+        <div class="back-group">
+          <div class="back-btn"><img src="images/icon_back.svg" alt="back"></div>
+          <div class="divider"></div>
+          <div class="home-btn"><img src="images/icon_home.svg" alt="home"></div>
+        </div>
+        <div class="title" style="color:white;">微信支付全球有礼</div>
+        <div class="func"><img src="images/icon_mp_func.svg" alt="func" style="filter:brightness(10);"></div>
+      </div>
+    </div>
+    <div class="popup-mask"></div>
+    <div class="popup-content" style="z-index:25;">
+      <div class="popup-header">
+        <div class="popup-header-title">
+          <h2>请粘贴组队返现码</h2>
+          <div class="close-btn" onclick="goTo('page-search-expand')"><img src="images/icon_close.svg" alt="close"></div>
+        </div>
+      </div>
+      <div class="tips-section" style="display:none;">
+        <div class="tips-card">
+          <div class="tips-content">
+            <div class="tips-badge">Tips</div>
+            <p class="tips-text">此码为"<span class="highlight">三井购物公园组队返现</span>"活动的组队码，点击加入</p>
+          </div>
+          <img class="tips-poster" src="images/poster_image.png" alt="活动海报">
+        </div>
+      </div>
+      <div class="code-boxes" style="margin-top:16px;">
+        <div class="code-box" style="color:#ccc;"></div>
+        <div class="code-box" style="color:#ccc;"></div>
+        <div class="code-box" style="color:#ccc;"></div>
+        <div class="code-box" style="color:#ccc;"></div>
+        <div class="code-box" style="color:#ccc;"></div>
+        <div class="code-box" style="color:#ccc;"></div>
+      </div>
+      <div class="popup-buttons" style="padding-top:28px;">
+        <button class="popup-btn cancel" onclick="goTo('page-search-expand')">取消</button>
+        <button class="popup-btn confirm" onclick="doPasteCodeS2()" style="background:#07c160;">粘贴</button>
+      </div>
+    </div>
+    <div class="ios-keyboard-simple" style="position:absolute;bottom:0;left:0;z-index:10;">
+      <div class="kb-keys-area">
+        <div class="kb-row">
+          <div class="kb-key">q</div><div class="kb-key">w</div><div class="kb-key">e</div><div class="kb-key">r</div>
+          <div class="kb-key">t</div><div class="kb-key">y</div><div class="kb-key">u</div><div class="kb-key">i</div>
+          <div class="kb-key">o</div><div class="kb-key">p</div>
+        </div>
+        <div class="kb-row row-middle">
+          <div class="kb-key">a</div><div class="kb-key">s</div><div class="kb-key">d</div><div class="kb-key">f</div>
+          <div class="kb-key">g</div><div class="kb-key">h</div><div class="kb-key">j</div><div class="kb-key">k</div>
+          <div class="kb-key">l</div>
+        </div>
+        <div class="kb-row">
+          <div class="kb-key special shift-key"><img src="images/icon_shift.svg" alt="⇧"></div>
+          <div class="kb-key">z</div><div class="kb-key">x</div><div class="kb-key">c</div><div class="kb-key">v</div>
+          <div class="kb-key">b</div><div class="kb-key">n</div><div class="kb-key">m</div>
+          <div class="kb-key special delete-key"><img src="images/icon_delete.svg" alt="⌫"></div>
+        </div>
+        <div class="kb-func-row">
+          <div class="kb-func-btn num-btn">123</div>
+          <div class="kb-func-btn emoji-btn">😊</div>
+          <div class="kb-func-btn space-btn">空格</div>
+          <div class="kb-func-btn" style="flex:0 0 72px;background:#adb3bc;font-size:16px;color:black;">换行</div>
+        </div>
+      </div>
+      <div class="kb-home-indicator"><div class="bar"></div></div>
+    </div>
+  </div>
+
+  <!-- S2 Page: Team Cashback Popup Step 2 (Phase 2 - after paste, shows code) -->
+  <div class="page" id="page-cashback-pasted-s2">
+    <div class="popup-bg-header">
+      <div class="status-bar">
+        <span class="time" style="color:white">9:00</span>
+        <img class="icons" src="images/icon_union_status.svg" alt="status" style="filter:brightness(10)">
+      </div>
+      <div class="mp-header" style="background:transparent;">
+        <div class="back-group">
+          <div class="back-btn"><img src="images/icon_back.svg" alt="back"></div>
+          <div class="divider"></div>
+          <div class="home-btn"><img src="images/icon_home.svg" alt="home"></div>
+        </div>
+        <div class="title" style="color:white;">微信支付全球有礼</div>
+        <div class="func"><img src="images/icon_mp_func.svg" alt="func" style="filter:brightness(10);"></div>
+      </div>
+    </div>
+    <div class="popup-mask"></div>
+    <div class="popup-content" style="z-index:25;">
+      <div class="popup-header">
+        <div class="popup-header-title">
+          <h2>请粘贴组队返现码</h2>
+          <div class="close-btn" onclick="goTo('page-search-expand')"><img src="images/icon_close.svg" alt="close"></div>
+        </div>
+      </div>
+      <div class="tips-section">
+        <div class="tips-card">
+          <div class="tips-content">
+            <div class="tips-badge">Tips</div>
+            <p class="tips-text">此码为"<span class="highlight">三井购物公园组队返现</span>"活动的组队码，点击加入</p>
+          </div>
+          <img class="tips-poster" src="images/poster_image.png" alt="活动海报">
+        </div>
+      </div>
+      <div class="code-boxes" style="margin-top:0;">
+        <div class="code-box">C</div>
+        <div class="code-box">N</div>
+        <div class="code-box">1</div>
+        <div class="code-box">0</div>
+        <div class="code-box">4</div>
+        <div class="code-box">3</div>
+      </div>
+      <div class="popup-buttons" style="padding-top:28px;">
+        <button class="popup-btn cancel" onclick="goTo('page-search-expand')">取消</button>
+        <button class="popup-btn confirm" onclick="showResultChoice('cashback-s2')">加入队伍</button>
+      </div>
+    </div>
+    <div class="ios-keyboard-simple" style="position:absolute;bottom:0;left:0;z-index:10;">
+      <div class="kb-keys-area">
+        <div class="kb-row">
+          <div class="kb-key">q</div><div class="kb-key">w</div><div class="kb-key">e</div><div class="kb-key">r</div>
+          <div class="kb-key">t</div><div class="kb-key">y</div><div class="kb-key">u</div><div class="kb-key">i</div>
+          <div class="kb-key">o</div><div class="kb-key">p</div>
+        </div>
+        <div class="kb-row row-middle">
+          <div class="kb-key">a</div><div class="kb-key">s</div><div class="kb-key">d</div><div class="kb-key">f</div>
+          <div class="kb-key">g</div><div class="kb-key">h</div><div class="kb-key">j</div><div class="kb-key">k</div>
+          <div class="kb-key">l</div>
+        </div>
+        <div class="kb-row">
+          <div class="kb-key special shift-key"><img src="images/icon_shift.svg" alt="⇧"></div>
+          <div class="kb-key">z</div><div class="kb-key">x</div><div class="kb-key">c</div><div class="kb-key">v</div>
+          <div class="kb-key">b</div><div class="kb-key">n</div><div class="kb-key">m</div>
+          <div class="kb-key special delete-key"><img src="images/icon_delete.svg" alt="⌫"></div>
+        </div>
+        <div class="kb-func-row">
+          <div class="kb-func-btn num-btn">123</div>
+          <div class="kb-func-btn emoji-btn">😊</div>
+          <div class="kb-func-btn space-btn">空格</div>
+          <div class="kb-func-btn" style="flex:0 0 72px;background:#adb3bc;font-size:16px;color:black;">换行</div>
         </div>
       </div>
       <div class="kb-home-indicator"><div class="bar"></div></div>
@@ -1981,6 +2279,22 @@
   }
 
   // ===== Phase 2: Search Flow Functions =====
+
+  // Paste team code from search expand page
+  function doPasteS2() {
+    goTo('page-search-after-s2');
+  }
+
+  // Search with team code CN1043 → show confirmation popup (请确认)
+  function doSearchCodeS2() {
+    goTo('page-cashback-confirm-s2');
+  }
+
+  // Paste code in "请粘贴" popup (from 猜你想搜) → show filled code boxes
+  function doPasteCodeS2() {
+    goTo('page-cashback-pasted-s2');
+  }
+
   function doSearchS2(keyword) {
     // Update search input display
     const input = document.getElementById('s2-search-input');
@@ -1990,6 +2304,64 @@
     if (srText) srText.textContent = keyword;
     // Navigate to search result page
     goTo('page-search-result');
+  }
+
+  // Search History expand / collapse
+  let historyExpanded = false;
+  function toggleSearchHistory() {
+    historyExpanded = !historyExpanded;
+    const extra = document.getElementById('history-tags-extra');
+    const arrow = document.getElementById('history-arrow-icon');
+    if (historyExpanded) {
+      extra.style.display = 'flex';
+      arrow.style.transform = 'rotate(180deg)';
+    } else {
+      extra.style.display = 'none';
+      arrow.style.transform = 'rotate(0deg)';
+    }
+  }
+
+  // Guess you want - refresh / swap batches
+  const guessBatches = [
+    [
+      { text: '日本三井公园组队返现', action: "goTo('page-cashback-popup-s2')" },
+      { text: '日本集徽章活动', action: "goTo('page-cashback-popup-s2')" },
+    ],
+    [
+      { text: '香港万宁优惠', action: "goTo('page-cashback-popup-s2')" },
+      { text: '韩国乐天组队返现', action: "goTo('page-cashback-popup-s2')" },
+    ],
+    [
+      { text: '泰国王权免税店', action: "goTo('page-cashback-popup-s2')" },
+      { text: '新加坡樟宜机场活动', action: "goTo('page-cashback-popup-s2')" },
+    ],
+    [
+      { text: '澳门银河组队返现', action: "goTo('page-cashback-popup-s2')" },
+      { text: '马来西亚集徽章', action: "goTo('page-cashback-popup-s2')" },
+    ],
+  ];
+  let guessCurrentBatch = 0;
+
+  function refreshGuessSearch() {
+    // Rotate refresh icon animation
+    const icon = document.getElementById('guess-refresh-icon');
+    if (icon) {
+      icon.style.transform = 'rotate(' + (360 * (guessCurrentBatch + 1)) + 'deg)';
+    }
+    // Move to next batch
+    guessCurrentBatch = (guessCurrentBatch + 1) % guessBatches.length;
+    const batch = guessBatches[guessCurrentBatch];
+    const container = document.getElementById('guess-tags-container');
+    if (!container) return;
+    // Fade out -> update -> fade in
+    container.style.transition = 'opacity 0.2s ease';
+    container.style.opacity = '0';
+    setTimeout(() => {
+      container.innerHTML = batch.map(item =>
+        '<span class="se-tag" onclick="' + item.action + '">' + item.text + '</span>'
+      ).join('');
+      container.style.opacity = '1';
+    }, 200);
   }
 
   // Initialize
