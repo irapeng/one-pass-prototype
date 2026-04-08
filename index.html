@@ -183,7 +183,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC',sans-serif;backg
 <div class="phone-frame">
 
 <!-- NAV -->
-<div class="page active" id="page-nav">
+<div class="page" id="page-nav">
 <div class="nav-page">
 <h1>🔍 一码通行</h1>
 <p class="sub">选择入口开始体验流程</p>
@@ -199,7 +199,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC',sans-serif;backg
 </div>
 
 <!-- REGION -->
-<div class="page" id="page-region">
+<div class="page active" id="page-region">
 <div class="rbg">
 <img src="images/japan_top.png" alt="地区页">
 <div class="sbox" style="top:100px" onclick="goTo('page-search')">
@@ -228,11 +228,30 @@ body{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC',sans-serif;backg
 </div>
 </div>
 <div class="srd"></div>
-<div class="sbody" style="height:326px">
+<!-- iPhone paste banner -->
+<div id="paste-banner" style="display:flex;align-items:center;justify-content:space-between;padding:8px 16px;background:#f0f0f0;border-bottom:1px solid #e0e0e0;cursor:pointer" onclick="showPasteChoice()">
+<div style="display:flex;align-items:center;gap:8px"><div style="width:20px;height:20px;background:#007aff;border-radius:4px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px">📋</div><span style="font-size:13px;color:#333">来自「剪贴板」 cn1043...</span></div>
+<span style="font-size:13px;color:#007aff;font-weight:500">粘贴</span>
+</div>
+<!-- Paste choice overlay -->
+<div id="paste-choice" style="display:none;position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.5);z-index:300;flex-direction:column;align-items:center;justify-content:center;padding:24px">
+<div style="background:#fff;border-radius:16px;padding:20px;width:100%;max-width:320px">
+<div style="font-size:16px;font-weight:600;text-align:center;margin-bottom:4px">选择粘贴结果</div>
+<div style="font-size:12px;color:#999;text-align:center;margin-bottom:16px">模拟粘贴 cn1043 后的不同场景</div>
+<div style="display:flex;flex-direction:column;gap:8px">
+<div onclick="hidePasteChoice();goToResult('cn1043','join')" style="padding:12px;background:#f0faf0;border-radius:10px;cursor:pointer;display:flex;align-items:center;gap:8px"><span style="font-size:16px">✅</span><div><div style="font-size:14px;font-weight:500;color:#333">正确码 — 可加入队伍</div><div style="font-size:11px;color:#999">cn1043 → 加入队伍</div></div></div>
+<div onclick="hidePasteChoice();goToResult('cn1043','full')" style="padding:12px;background:#fff8f0;border-radius:10px;cursor:pointer;display:flex;align-items:center;gap:8px"><span style="font-size:16px">⚠️</span><div><div style="font-size:14px;font-weight:500;color:#333">队伍已满员</div><div style="font-size:11px;color:#999">cn1043 → 满员提示</div></div></div>
+<div onclick="hidePasteChoice();goToResult('cn1043','already')" style="padding:12px;background:#f5f0ff;border-radius:10px;cursor:pointer;display:flex;align-items:center;gap:8px"><span style="font-size:16px">👤</span><div><div style="font-size:14px;font-weight:500;color:#333">已在队伍中</div><div style="font-size:11px;color:#999">cn1043 → 已组过队</div></div></div>
+<div onclick="hidePasteChoice();goToResult('CX1043','error')" style="padding:12px;background:#f5f5f5;border-radius:10px;cursor:pointer;display:flex;align-items:center;gap:8px"><span style="font-size:16px">❌</span><div><div style="font-size:14px;font-weight:500;color:#333">完全错误码</div><div style="font-size:11px;color:#999">CX1043 → 未找到队伍</div></div></div>
+</div>
+<div onclick="hidePasteChoice()" style="margin-top:12px;text-align:center;font-size:14px;color:#999;cursor:pointer">取消</div>
+</div>
+</div>
+<div class="sbody" style="height:290px">
 <div class="ss"><div class="ssh"><span class="sst">搜索记录</span><div class="ssa"><img src="images/icon_delete_history.svg"></div></div>
 <div class="stgs"><span class="stg" onclick="fillSearch('沙沙')">沙沙</span><span class="stg" onclick="fillSearch('sasa')">sasa</span><span class="stg" onclick="fillSearch('麦')">麦</span><span class="stg" onclick="fillSearch('711')">711</span></div></div>
 <div class="ss"><div class="ssh"><span class="sst">猜你想搜</span></div>
-<div class="stgs"><span class="stg" onclick="goToResult('cn1043','join')"><span style="font-size:14px">🔥</span> 日本三井公园组队返现活动</span><span class="stg" onclick="goToResult('cn1043','join')">汇率组队活动</span></div>
+<div class="stgs"><span class="stg" onclick="goTo('page-activity')"><span style="font-size:14px">🔥</span> 日本三井公园组队返现活动</span><span class="stg" onclick="goTo('page-activity')">汇率组队活动</span></div>
 <div class="stgs" style="margin-top:8px"><span class="stg" onclick="goTo('page-merchant')">罗森免费大福</span><span class="stg" onclick="goTo('page-merchant')">万宁$25优惠券</span></div></div>
 <div class="ss"><div class="ssh"><span class="sst">朋友在搜</span></div>
 <div class="fr"><span class="fbdg">NEW</span><span class="ftx">看看朋友认为 <b style="color:#333">#物美价廉</b> 的</span></div></div>
@@ -424,10 +443,66 @@ body{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC',sans-serif;backg
 </div>
 </div>
 
+<!-- ACTIVITY DETAIL (日本三井购物公园) -->
+<div class="page" id="page-activity">
+<div style="min-height:812px;background:#f8f4ef">
+<div class="sbar"><span class="tm">9:00</span><img src="images/icon_union_status.svg" style="height:14px"></div>
+<div class="smpbar" style="background:transparent">
+<div class="bk" onclick="goBack()"><svg width="10" height="18" viewBox="0 0 10 18" fill="none"><path d="M9 1L1 9L9 17" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+<div class="tt" style="color:#000">微信支付全球有礼</div>
+<div class="cp"><img src="images/icon_mp_func.svg"></div>
+</div>
+<!-- Activity hero -->
+<div style="background:linear-gradient(180deg,#f5a623,#f5a623 60%,#f8f4ef);padding:0 16px 20px;text-align:center;position:relative">
+<div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+<div style="width:60px;height:60px;background:#fff;border-radius:12px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.1)"><span style="font-size:8px;font-weight:700;color:#f5a623;text-align:center;line-height:1.1">MITSUI<br>OUTLET<br>PARK</span></div>
+<div style="flex:1;text-align:left"><div style="font-size:20px;font-weight:700;color:#fff">日本三井购物公园</div><div style="font-size:11px;color:rgba(255,255,255,.8)">查看活动门店 查看活动门店</div></div>
+<div style="background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.5);color:#fff;font-size:12px;padding:4px 12px;border-radius:16px">活动门店</div>
+</div>
+</div>
+<!-- Activity info card -->
+<div style="margin:-10px 16px 0;background:#fff;border-radius:16px;padding:20px;box-shadow:0 2px 8px rgba(0,0,0,.06)">
+<div style="font-size:20px;font-weight:700;color:#e64c30;margin-bottom:4px">组队消费 最高享3%返现</div>
+<div style="font-size:12px;color:#999;margin-bottom:16px">部分门店参与 领完即止 | 活动截止2025年8月31日</div>
+<!-- 参与有礼 -->
+<div style="background:#fff8f0;border:1px solid #ffe0b2;border-radius:12px;padding:14px;margin-bottom:12px">
+<div style="display:flex;align-items:center;gap:6px;margin-bottom:8px"><span style="color:#f5a623;font-size:14px">🎁</span><span style="font-size:14px;font-weight:600;color:#333">参与有礼</span><span style="font-size:12px;color:#999">单人消费达标可享</span></div>
+<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0">
+<div><span style="font-size:13px;color:#666">个人消费满</span><span style="font-size:18px;font-weight:700;color:#000">600.00</span><span style="font-size:13px;color:#666">元</span></div>
+<div><span style="font-size:13px;color:#666">可享返现</span><span style="font-size:22px;font-weight:700;color:#e64c30"> 1%</span></div>
+</div>
+</div>
+<!-- 组队返现 -->
+<div style="background:#fff8f0;border:1px solid #ffe0b2;border-radius:12px;padding:14px;margin-bottom:16px">
+<div style="display:flex;align-items:center;gap:6px;margin-bottom:10px"><span style="color:#f5a623;font-size:14px">🎁</span><span style="font-size:14px;font-weight:600;color:#333">组队返现</span><span style="font-size:12px;color:#e64c30">2人组队且都有消费可享</span></div>
+<div style="display:flex;justify-content:space-around;text-align:center">
+<div><div style="font-size:12px;color:#999;margin-bottom:4px">队伍满3千元</div><div style="font-size:12px;color:#999">个人消费返</div><div style="font-size:24px;font-weight:700;color:#e64c30">2%</div></div>
+<div><div style="font-size:12px;color:#999;margin-bottom:4px">队伍满6千元</div><div style="font-size:12px;color:#999">个人消费返</div><div style="font-size:24px;font-weight:700;color:#e64c30">2.5%</div></div>
+<div><div style="font-size:12px;color:#999;margin-bottom:4px">队伍满1.2万元</div><div style="font-size:12px;color:#999">个人消费返</div><div style="font-size:24px;font-weight:700;color:#e64c30">3%</div></div>
+</div>
+</div>
+<!-- Buttons -->
+<div style="text-align:center">
+<div style="font-size:10px;color:#e64c30;margin-bottom:4px;text-align:right">参与后即可累计消费</div>
+<button style="width:200px;height:44px;background:linear-gradient(90deg,#ff9800,#ff6d00);border:none;border-radius:22px;color:#fff;font-size:16px;font-weight:600;cursor:pointer">参与返现</button>
+<div style="margin-top:8px;font-size:13px;color:#666;cursor:pointer">加入其他队伍 ›</div>
+</div>
+</div>
+<!-- Activity description -->
+<div style="margin:12px 16px;background:#fff;border-radius:16px;padding:16px">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><span style="font-size:16px;font-weight:600">活动说明</span><span style="font-size:13px;color:#576b95">查看更多规则 ›</span></div>
+<div style="display:flex;gap:12px">
+<div style="flex:1;background:#f8f8f8;border-radius:8px;padding:12px"><div style="font-size:13px;font-weight:500;margin-bottom:4px">先参与再邀请</div><div style="font-size:11px;color:#999;line-height:1.5">参与活动后，即可累计消费；支持消费后组队，组队时可带上已消费金额</div></div>
+<div style="flex:1;background:#f8f8f8;border-radius:8px;padding:12px"><div style="display:flex;align-items:center;gap:4px;margin-bottom:4px"><span style="font-size:13px">💰</span><span style="font-size:13px;font-weight:500">结束即可领返现</span></div><div style="font-size:11px;color:#999;line-height:1.5">个人返现最高1000元，活动结束后可领返现；30天内未领取，则过期失效</div></div>
+</div>
+</div>
+</div>
+</div>
+
 </div>
 
 <script>
-let cur='page-nav',hist=['page-nav'];
+let cur='page-region',hist=['page-region'];
 function goTo(id){
   document.getElementById(cur).classList.remove('active');
   document.getElementById(cur).style.display='none';
@@ -438,7 +513,13 @@ function goTo(id){
 }
 function goBack(){
   if(hist.length>1){hist.pop();goTo(hist[hist.length-1]);if(hist.length>1&&hist[hist.length-1]===hist[hist.length-2])hist.pop()}
-  else goTo('page-nav');
+  else goTo('page-region');
+}
+function showPasteChoice(){
+  document.getElementById('paste-choice').style.display='flex';
+}
+function hidePasteChoice(){
+  document.getElementById('paste-choice').style.display='none';
 }
 function goToResult(code,type){
   var pageId='page-result-'+type;
