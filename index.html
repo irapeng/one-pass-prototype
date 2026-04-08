@@ -404,36 +404,73 @@ body{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC',sans-serif;backg
 <div class="tov on" id="toast-error"><div class="tbx">未找到队伍，<br>请检查组队码！</div></div>
 </div>
 
-<!-- RESULT: 组队码cx1043 (文字+错误码，仍跳转组队页，点加入后提示错误) -->
+<!-- RESULT: 组队码cx1043 (中间态弹窗：请确认组队返现码) -->
 <div class="page" id="page-result-wrongcode">
-<div class="rp">
-<div class="rtop">
+<!-- 背景：微信支付全球有礼 header -->
+<div style="background:#e64c30;height:88px">
 <div class="sbar"><span class="tm" style="color:#fff">9:00</span><img src="images/icon_union_status.svg" style="filter:brightness(10);height:14px"></div>
 <div class="smpbar">
 <div class="bk" onclick="goBack()"><svg width="10" height="18" viewBox="0 0 10 18" fill="none"><path d="M9 1L1 9L9 17" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-<div class="tt">搜索</div>
+<div class="hm" onclick="goTo('page-region')"><img src="images/icon_home.svg" style="filter:brightness(0) invert(1);width:20px;height:20px"></div>
+<div class="tt" style="color:#fff">微信支付全球有礼</div>
 <div class="cp"><img src="images/icon_mp_func.svg" style="filter:brightness(10)"></div>
 </div>
 </div>
-<div class="rsrow"><div class="rsinp"><span class="ri">🔍</span><span class="rt">组队码cx1043</span><span class="rc" onclick="goTo('page-search')">✕</span></div></div>
-<div class="rtags"><span class="rtag">搜组队码</span><span class="rtag">搜活动</span><span class="rtag">搜优惠</span><span class="rtag">搜商户</span></div>
-<div class="rlbl">搜索结果</div>
-<div class="rmatch"><span class="code">组队码cx1043</span> <span class="hint">匹配以下活动</span></div>
-<div class="acard">
-<div class="ahdr"><div class="aav"><span>MITSUI<br>OUTLET<br>PARK</span></div><div class="ainf"><div class="an">日本·大丸百货消费返现</div><div class="ad">活动时间 2025.11.30~11.30</div></div></div>
-<div class="abody">
-<div class="atrow">
-<div class="atavs"><div class="a"><img src="images/success_avatar.png"></div><div class="a"><img src="images/success_avatar.png"></div><div class="a"><img src="images/success_avatar.png"></div></div>
-<span class="atst">队伍已有<span class="ac">4</span>名队友，<span class="ac">当前享3%返现</span></span>
+<!-- 半透明遮罩 -->
+<div style="background:rgba(0,0,0,.4);position:absolute;top:88px;left:0;right:0;bottom:0;z-index:10"></div>
+<!-- 弹窗 -->
+<div style="position:absolute;top:76px;left:0;right:0;z-index:20;background:#fff;border-radius:16px 16px 0 0;padding:20px 20px 0">
+<!-- 标题 + 关闭 -->
+<div style="display:flex;align-items:center;justify-content:center;position:relative;margin-bottom:16px">
+<span style="font-size:18px;font-weight:600;color:#000">请确认组队返现码</span>
+<span onclick="goBack()" style="position:absolute;right:0;font-size:20px;color:#999;cursor:pointer">✕</span>
 </div>
-<div class="apbdg">❓ 享3%组队返现</div>
-<div class="apb"><div class="apbt"><div class="apbf" style="width:100%"></div><div class="apd"><div class="apdd"></div><div class="apdd"></div><div class="apdd l"></div></div></div></div>
-<div class="apls"><div>队伍满3千元<br>个人消费返2%</div><div>队伍满6千元<br>个人消费返2.5%</div><div class="al">队伍满1.2万元<br>个人消费返3%</div></div>
+<!-- Tips + 海报 -->
+<div style="display:flex;gap:12px;background:#f8f8f8;border-radius:12px;padding:14px;margin-bottom:16px;min-height:110px">
+<div style="flex:1">
+<div style="display:inline-block;background:#ff6b35;color:#fff;font-size:10px;padding:2px 6px;border-radius:4px;margin-bottom:8px">Tips</div>
+<div style="font-size:13px;color:#333;line-height:1.6">此码为"<span style="color:#e64c30">三井购物公园组队返现</span>"活动的组队码，点击加入</div>
 </div>
-<div class="abtns"><button class="abtn o" onclick="goTo('page-nav')">查看活动</button><button class="abtn p" onclick="showWrongCodeToast()">加入队伍</button></div>
+<div style="width:120px;height:90px;background:linear-gradient(135deg,#ff6b4a,#e64c30);border-radius:8px;flex-shrink:0;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;font-size:9px;line-height:1.4;text-align:center;padding:6px">
+<div style="font-size:8px;opacity:.8">日本三井購物公園</div>
+<div style="font-weight:700;font-size:11px;margin:2px 0">日本三井购物公园</div>
+<div style="font-size:9px">组队消费冲</div>
+<div style="font-size:14px;font-weight:700">3%<span style="font-size:9px"> 返现</span></div>
 </div>
+</div>
+<!-- 码框: C x 1 0 4 3 -->
+<div style="display:flex;gap:8px;justify-content:center;margin-bottom:20px">
+<div style="width:44px;height:50px;background:#f5f5f5;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:600">C</div>
+<div style="width:44px;height:50px;background:#f5f5f5;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:600">x</div>
+<div style="width:44px;height:50px;background:#f5f5f5;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:600">1</div>
+<div style="width:44px;height:50px;background:#f5f5f5;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:600">0</div>
+<div style="width:44px;height:50px;background:#f5f5f5;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:600">4</div>
+<div style="width:44px;height:50px;background:#f5f5f5;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:600">3</div>
+</div>
+<!-- 按钮: 取消 / 加入队伍 -->
+<div style="display:flex;gap:12px;margin-bottom:16px">
+<button onclick="goBack()" style="flex:1;height:44px;border-radius:22px;background:#f5f5f5;color:#333;font-size:16px;border:none;cursor:pointer">取消</button>
+<button onclick="showWrongCodeToast()" style="flex:1;height:44px;border-radius:22px;background:#e64c30;color:#fff;font-size:16px;border:none;cursor:pointer">加入队伍</button>
+</div>
+</div>
+<!-- 键盘 -->
+<div style="position:absolute;bottom:0;left:0;right:0;z-index:30">
+<div class="kb" style="border-top:none">
+<div class="kba">
+<div class="kr" style="margin-bottom:8px">
+<div class="kk" style="font-size:24px;height:46px">1</div><div class="kk" style="font-size:24px;height:46px">2</div><div class="kk" style="font-size:24px;height:46px">3</div><div class="kk" style="font-size:24px;height:46px">4</div><div class="kk" style="font-size:24px;height:46px">5</div><div class="kk" style="font-size:24px;height:46px">6</div><div class="kk" style="font-size:24px;height:46px">7</div><div class="kk" style="font-size:24px;height:46px">8</div><div class="kk" style="font-size:24px;height:46px">9</div><div class="kk" style="font-size:24px;height:46px">0</div>
+</div>
+<div class="kr">
+<div class="kk">q</div><div class="kk">w</div><div class="kk">e</div><div class="kk">r</div><div class="kk">t</div><div class="kk">y</div><div class="kk">u</div><div class="kk">i</div><div class="kk">o</div><div class="kk">p</div>
+</div>
+<div class="kr m"><div class="kk">a</div><div class="kk">s</div><div class="kk">d</div><div class="kk">f</div><div class="kk">g</div><div class="kk">h</div><div class="kk">j</div><div class="kk">k</div><div class="kk">l</div></div>
+<div class="kr"><div class="kk sp"><img src="images/icon_shift.svg"></div><div class="kk">z</div><div class="kk">x</div><div class="kk">c</div><div class="kk">v</div><div class="kk">b</div><div class="kk">n</div><div class="kk">m</div><div class="kk sp"><img src="images/icon_delete.svg"></div></div>
+</div>
+<div class="khi"><div class="bar"></div></div>
+</div>
+</div>
+<!-- Toast -->
 <div class="tov" id="toast-wrongcode"><div class="tbx">未找到队伍，<br>请检查组队码！</div></div>
-</div>
 </div>
 
 <!-- MERCHANT DETAIL -->
