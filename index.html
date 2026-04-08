@@ -15,10 +15,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC',sans-serif;backg
 .toast{position:absolute;top:45%;left:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,.78);color:#fff;padding:16px 24px;border-radius:12px;font-size:14px;text-align:center;line-height:1.6;max-width:200px;z-index:999;display:none}
 .toast.show{display:block;animation:ta 2.5s ease forwards}
 @keyframes ta{0%{opacity:0;transform:translate(-50%,-50%) scale(.8)}10%{opacity:1;transform:translate(-50%,-50%) scale(1)}80%{opacity:1}100%{opacity:0}}
-.paste-bar{position:absolute;top:167px;left:0;right:0;height:38px;background:rgba(240,240,240,.95);border-bottom:1px solid #e0e0e0;display:flex;align-items:center;justify-content:space-between;padding:0 16px;cursor:pointer;z-index:20}
-.paste-bar .lb{font-size:13px;color:#333;display:flex;align-items:center;gap:6px}
-.paste-bar .lb .ic{width:18px;height:18px;background:#007aff;border-radius:3px;color:#fff;font-size:10px;display:flex;align-items:center;justify-content:center}
-.paste-bar .ac{font-size:13px;color:#007aff;font-weight:500}
+.paste-bar{position:absolute;top:96px;left:50%;transform:translateX(-50%);width:220px;height:36px;background:#fff;border-radius:10px;box-shadow:0 2px 12px rgba(0,0,0,.15);display:flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;z-index:20}
+.paste-bar .ic{width:16px;height:16px}
+.paste-bar .tx{font-size:14px;color:#007aff;font-weight:400;letter-spacing:-0.2px}
 .ov{position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.5);z-index:100;display:none;align-items:center;justify-content:center;padding:20px}
 .ov.on{display:flex}
 .ovb{background:#fff;border-radius:16px;padding:18px;width:100%;max-width:320px}
@@ -56,8 +55,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC',sans-serif;backg
 <div class="pg" id="pg-search">
 <img class="bg" src="images/page_search.png">
 <div class="paste-bar" onclick="showOv()">
-<div class="lb"><div class="ic">📋</div>来自「剪贴板」cn1043...</div>
-<div class="ac">粘贴</div>
+<svg class="ic" viewBox="0 0 16 16" fill="none"><rect x="3" y="1" width="10" height="3" rx="1" stroke="#007aff" stroke-width="1.2"/><rect x="1" y="4" width="14" height="11" rx="2" stroke="#007aff" stroke-width="1.2"/><path d="M5 8h6M5 11h4" stroke="#007aff" stroke-width="1.2" stroke-linecap="round"/></svg>
+<span class="tx">粘贴</span>
 </div>
 <div class="hot" style="top:48px;left:8px;width:32px;height:32px" onclick="goBack()"></div>
 <div class="hot" style="top:48px;left:40px;width:32px;height:32px" onclick="go('pg-region')"></div>
