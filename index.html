@@ -7,635 +7,165 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 body{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC',sans-serif;background:#1a1a2e;display:flex;justify-content:center;align-items:flex-start;min-height:100vh;padding:20px 0}
-.phone-frame{width:375px;min-height:812px;background:#fff;position:relative;overflow:hidden;border-radius:40px;box-shadow:0 0 0 8px #222,0 20px 60px rgba(0,0,0,.5)}
-.page{display:none;position:relative;width:375px;min-height:812px;overflow:hidden}
-.page.active{display:block}
-
-/* NAV */
-.nav-page{background:linear-gradient(135deg,#ff6b4a,#e64c30 50%,#c43d27);display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:812px;padding:30px 20px}
-.nav-page h1{color:#fff;font-size:26px;font-weight:700;margin-bottom:6px}
-.nav-page .sub{color:rgba(255,255,255,.7);font-size:13px;margin-bottom:20px;text-align:center}
-.nb{width:100%;max-width:300px;padding:12px 16px;border:none;border-radius:12px;font-size:14px;font-weight:600;cursor:pointer;margin-bottom:10px;display:flex;align-items:center;gap:10px;transition:transform .15s;text-align:left}
-.nb:active{transform:scale(.97)}
-.nb.w{background:#fff;color:#e64c30;box-shadow:0 4px 16px rgba(0,0,0,.12)}
-.nb.t{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.3)}
-.nb .ic{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
-.nb .tx{flex:1;line-height:1.3}
-.nb .tx span{display:block;font-size:10px;font-weight:400;opacity:.6;margin-top:1px}
-.nb .ar{font-size:16px;opacity:.4}
-.nav-div{width:100%;max-width:300px;height:1px;background:rgba(255,255,255,.15);margin:8px 0}
-.nav-label{color:rgba(255,255,255,.5);font-size:11px;margin-bottom:8px}
-
-/* STATUS */
-.sbar{height:50px;padding:12px 20px 0;display:flex;justify-content:space-between;align-items:center}
-.sbar .tm{font-size:15px;font-weight:600}
-.sbar img{height:14px}
-
-/* REGION */
-.rbg{position:relative}
-.rbg img{width:375px;display:block}
-.sbox{position:absolute;left:16px;right:16px;height:36px;background:#fff;border-radius:20px;display:flex;align-items:center;padding:0 14px;cursor:pointer;z-index:5}
-.sbox .si{font-size:14px;color:#ababaf;margin-right:6px}
-.sbox .sp{font-size:13px;color:#ababaf}
-
-/* SEARCH HEADER */
-.shdr{background:#e64c30}
-.smpbar{display:flex;align-items:center;padding:0 12px;height:44px}
-.smpbar .bk{padding:8px;cursor:pointer}
-.smpbar .hm{padding:8px;cursor:pointer}
-.smpbar .hm img{width:20px;height:20px}
-.smpbar .tt{flex:1;text-align:center;font-size:17px;font-weight:500;color:#fff}
-.smpbar .cp{width:88px;height:32px}
-.smpbar .cp img{width:100%;height:100%}
-
-.sinput-row{display:flex;align-items:center;padding:0 12px 8px;gap:8px}
-.sinput-box{flex:1;background:#fff;border-radius:20px;height:36px;display:flex;align-items:center;padding:0 12px}
-.sinput-box .si2{font-size:14px;color:#ababaf;margin-right:6px}
-.sinput-box input{flex:1;border:none;outline:none;font-size:14px;background:transparent}
-.sinput-box input::placeholder{color:#ababaf;font-size:13px}
-.sinput-box .clr{width:18px;height:18px;background:#ccc;border-radius:50%;color:#fff;font-size:11px;display:none;align-items:center;justify-content:center;cursor:pointer}
-.sbtn{background:rgba(255,255,255,.9);color:#e64c30;border:none;border-radius:16px;padding:6px 14px;font-size:13px;font-weight:600;cursor:pointer;flex-shrink:0}
-
-.stags{display:flex;gap:5px;padding:0 12px 10px;flex-wrap:wrap}
-.stag{font-size:11px;padding:3px 8px;border-radius:10px;cursor:pointer}
-.stag.l{color:rgba(255,255,255,.8)}
-.stag.a{background:rgba(255,255,255,.2);color:#fff}
-
-.srd{height:3px;background:#e64c30}
-
-/* SEARCH BODY */
-.sbody{background:#fff;padding:16px;overflow-y:auto}
-.ss{margin-bottom:18px}
-.ssh{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
-.sst{font-size:15px;font-weight:600;color:#000}
-.ssa{cursor:pointer;padding:4px}
-.ssa img{width:16px;height:16px;opacity:.4}
-.stgs{display:flex;flex-wrap:wrap;gap:8px}
-.stg{background:#f5f5f5;border-radius:16px;padding:6px 12px;font-size:13px;color:#333;cursor:pointer;display:inline-flex;align-items:center;gap:4px}
-.stg:active{background:#eee}
-.fr{display:flex;align-items:center;gap:8px}
-.fbdg{background:#ff4d4f;color:#fff;font-size:10px;padding:2px 6px;border-radius:8px}
-.ftx{font-size:13px;color:#666}
-
-/* iOS KB */
-.kb{background:#d1d3d9;border-top:1px solid #b5b8bf}
-.kbs{display:flex;align-items:center;padding:6px 8px;background:#cfd2d8;border-bottom:1px solid #b5b8bf}
-.kbs span{flex:1;text-align:center;font-size:15px;color:#000;border-right:1px solid #b5b8bf;padding:3px 0}
-.kbs span:last-child{border:none;flex:0 0 28px;font-size:13px;color:#666}
-.kba{padding:6px 3px 2px}
-.kr{display:flex;justify-content:center;gap:5px;margin-bottom:6px}
-.kr.m{padding:0 16px}
-.kk{min-width:32px;height:42px;background:#fff;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:22px;color:#000;box-shadow:0 1px 0 #898a8d;flex:1}
-.kk.sp{flex:0 0 42px;background:#adb3bc;font-size:16px}
-.kk.sp img{width:20px;height:20px;opacity:.6}
-.kfr{display:flex;gap:6px;padding:0 3px;margin-bottom:4px}
-.kf{height:42px;display:flex;align-items:center;justify-content:center;border-radius:5px;cursor:pointer}
-.kf.n{flex:0 0 48px;background:#adb3bc;font-size:16px;box-shadow:0 1px 0 #898a8d}
-.kf.e{flex:0 0 36px;font-size:22px}
-.kf.s{flex:1;background:#fff;font-size:16px;box-shadow:0 1px 0 #898a8d}
-.kf.b{flex:0 0 68px;background:#0a84ff;color:#fff;font-size:16px;box-shadow:0 1px 0 #0066cc}
-.khi{height:18px;display:flex;align-items:center;justify-content:center}
-.khi .bar{width:134px;height:5px;background:#000;border-radius:3px}
-
-/* RESULT PAGE */
-.rp{min-height:812px;background:#f5f5f5}
-.rtop{background:#e64c30}
-.rsrow{background:#fff;padding:8px 12px;display:flex;align-items:center;gap:8px}
-.rsinp{flex:1;background:#f5f5f5;border-radius:20px;height:36px;display:flex;align-items:center;padding:0 12px}
-.rsinp .ri{font-size:14px;color:#ababaf;margin-right:6px}
-.rsinp .rt{flex:1;font-size:14px;color:#000}
-.rsinp .rc{width:18px;height:18px;background:#ccc;border-radius:50%;color:#fff;font-size:11px;display:flex;align-items:center;justify-content:center;cursor:pointer}
-.rtags{display:flex;gap:5px;padding:6px 12px 10px;background:#fff;border-bottom:1px solid #f0f0f0}
-.rtag{font-size:11px;color:#e64c30;padding:3px 8px;border:1px solid #fdd;border-radius:10px}
-.rlbl{padding:12px 16px 4px;font-size:15px;font-weight:600;color:#333}
-.rmatch{padding:4px 16px 8px;font-size:13px}
-.rmatch .code{color:#e64c30;font-weight:500}
-.rmatch .hint{color:#999}
-
-/* Activity card */
-.acard{margin:0 16px 16px;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.06)}
-.ahdr{display:flex;align-items:center;gap:12px;padding:14px 16px}
-.aav{width:40px;height:40px;background:linear-gradient(135deg,#ffb74d,#ff9800);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.aav span{font-size:8px;font-weight:700;color:#fff;text-align:center;line-height:1.1}
-.ainf .an{font-size:15px;font-weight:600;color:#000}
-.ainf .ad{font-size:12px;color:#999;margin-top:1px}
-.abody{background:linear-gradient(180deg,#fff8f0,#fff);padding:12px 16px 14px;border:1px solid #ffe0b2;border-radius:12px;margin:0 12px}
-.atrow{display:flex;align-items:center;gap:6px;margin-bottom:6px;flex-wrap:wrap}
-.atavs{display:flex}
-.atavs .a{width:24px;height:24px;border-radius:50%;border:2px solid #fff;margin-left:-6px;overflow:hidden;background:#eee}
-.atavs .a:first-child{margin-left:0}
-.atavs .a img{width:100%;height:100%}
-.atst{font-size:13px;color:#333}
-.atst .ac{color:#e64c30;font-weight:600}
-.atst.ft{color:#e64c30;font-weight:600}
-.apbdg{display:inline-flex;align-items:center;gap:3px;font-size:10px;color:#e64c30;background:#fff3e0;padding:2px 6px;border-radius:8px;margin-left:auto}
-.apb{margin:6px 0}
-.apbt{height:8px;background:#f0f0f0;border-radius:4px;overflow:hidden;position:relative}
-.apbf{height:100%;background:linear-gradient(90deg,#ffb74d,#ff9800);border-radius:4px}
-.apd{display:flex;justify-content:space-between;position:absolute;top:-2px;left:0;right:0}
-.apdd{width:12px;height:12px;background:#ff9800;border-radius:50%;border:2px solid #fff}
-.apdd.l{background:#e64c30}
-.apls{display:flex;justify-content:space-between;font-size:10px;color:#999;margin-top:4px}
-.apls .al{color:#e64c30;font-weight:600}
-.abtns{display:flex;gap:12px;padding:14px 16px;justify-content:center}
-.abtn{padding:8px 24px;border-radius:20px;font-size:14px;cursor:pointer;border:none}
-.abtn.o{background:#fff;border:1.5px solid #e64c30;color:#e64c30}
-.abtn.p{background:#e64c30;color:#fff}
-
-/* TOAST */
-.tov{position:absolute;top:0;left:0;width:100%;height:100%;display:none;z-index:200;pointer-events:none}
-.tov.on{display:block}
-.tbx{position:absolute;top:45%;left:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,.78);color:#fff;padding:16px 24px;border-radius:12px;font-size:14px;text-align:center;line-height:1.6;max-width:200px;animation:ta 2.5s ease forwards}
+.phone{width:375px;height:812px;position:relative;overflow:hidden;border-radius:40px;box-shadow:0 0 0 8px #222,0 20px 60px rgba(0,0,0,.5);background:#fff}
+.pg{position:absolute;top:0;left:0;width:375px;height:812px;display:none;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.pg.on{display:block}
+.pg img.bg{width:375px;display:block}
+.hot{position:absolute;cursor:pointer;z-index:10}
+.toast{position:absolute;top:45%;left:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,.78);color:#fff;padding:16px 24px;border-radius:12px;font-size:14px;text-align:center;line-height:1.6;max-width:200px;z-index:999;display:none}
+.toast.show{display:block;animation:ta 2.5s ease forwards}
 @keyframes ta{0%{opacity:0;transform:translate(-50%,-50%) scale(.8)}10%{opacity:1;transform:translate(-50%,-50%) scale(1)}80%{opacity:1}100%{opacity:0}}
-
-/* MERCHANT */
-.mdp{min-height:812px;background:#f5f5f5}
-.mdtop{background:#fff}
-.mdh{padding:12px 16px 16px}
-.mdmr{display:flex;align-items:center;gap:12px;margin-bottom:12px}
-.mdma{width:56px;height:56px;background:#f58220;border-radius:50%;display:flex;align-items:center;justify-content:center}
-.mdma span{font-size:10px;font-weight:700;color:#fff;text-align:center;line-height:1.2}
-.mdmi{flex:1}
-.mdmn{font-size:20px;font-weight:700;color:#000}
-.mdmb{display:inline-block;background:#f5f5f5;font-size:11px;color:#666;padding:2px 8px;border-radius:4px;margin-top:3px}
-.mdloc{background:#f8f8f8;border-radius:12px;padding:12px;margin-bottom:12px}
-.mdlr{display:flex;align-items:flex-start;gap:8px;font-size:12px;color:#333;margin-bottom:4px}
-.mdms{text-align:center;font-size:13px;color:#666;padding:8px;cursor:pointer}
-.mds{background:#fff;margin-top:8px;padding:16px}
-.mdst{font-size:16px;font-weight:600;color:#000;margin-bottom:12px}
-.mdrc{background:#f0faf0;border:1px solid #c8e6c9;border-radius:12px;padding:14px;margin-bottom:12px}
-.mdrl{font-size:12px;color:#2e7d32;margin-bottom:6px}
-.mdrv{display:flex;align-items:baseline;margin-bottom:4px}
-.mdrv .bg{font-size:28px;font-weight:700}
-.mdrv .un{font-size:12px;color:#666;margin:0 4px}
-.mdrv .eq{font-size:20px;font-weight:600}
-.mdrd{font-size:11px;color:#999;margin-bottom:6px}
-.mdrb{background:#e64c30;color:#fff;border:none;padding:6px 14px;border-radius:16px;font-size:13px;cursor:pointer}
-.mdci{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid #f5f5f5}
-.mdcimg{width:48px;height:48px;background:#f0f0f0;border-radius:8px}
-.mdcinf{flex:1}
-.mdcn{font-size:14px;font-weight:500;color:#e64c30}
-.mdcd{font-size:11px;color:#999;margin-top:2px}
-.mdml{text-align:center;padding:14px;font-size:13px;color:#576b95;cursor:pointer}
+.paste-bar{position:absolute;top:167px;left:0;right:0;height:38px;background:rgba(240,240,240,.95);border-bottom:1px solid #e0e0e0;display:flex;align-items:center;justify-content:space-between;padding:0 16px;cursor:pointer;z-index:20}
+.paste-bar .lb{font-size:13px;color:#333;display:flex;align-items:center;gap:6px}
+.paste-bar .lb .ic{width:18px;height:18px;background:#007aff;border-radius:3px;color:#fff;font-size:10px;display:flex;align-items:center;justify-content:center}
+.paste-bar .ac{font-size:13px;color:#007aff;font-weight:500}
+.ov{position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.5);z-index:100;display:none;align-items:center;justify-content:center;padding:20px}
+.ov.on{display:flex}
+.ovb{background:#fff;border-radius:16px;padding:18px;width:100%;max-width:320px}
+.ovt{font-size:16px;font-weight:600;text-align:center;margin-bottom:4px}
+.ovs{font-size:12px;color:#999;text-align:center;margin-bottom:12px}
+.ovi{padding:10px;border-radius:10px;cursor:pointer;display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.ovi:active{opacity:.7}
+.ovi .t{font-size:13px;font-weight:500;color:#333}
+.ovi .d{font-size:11px;color:#999}
+.ovc{margin-top:8px;text-align:center;font-size:14px;color:#999;cursor:pointer}
+.nav{position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.88);z-index:200;display:none;flex-direction:column;align-items:center;padding:50px 20px 30px;overflow-y:auto}
+.nav.on{display:flex}
+.nav h2{color:#fff;font-size:20px;margin-bottom:4px}
+.nav .sub{color:rgba(255,255,255,.5);font-size:12px;margin-bottom:14px}
+.ni{width:100%;padding:10px 14px;background:rgba(255,255,255,.08);border-radius:10px;margin-bottom:6px;cursor:pointer;display:flex;align-items:center;gap:8px;color:#fff;font-size:13px}
+.ni:active{background:rgba(255,255,255,.15)}
+.ni .ic{width:26px;height:26px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+.ni .tx{flex:1;line-height:1.3}
+.ni .tx span{display:block;font-size:10px;opacity:.4;margin-top:1px}
+.ndiv{width:100%;height:1px;background:rgba(255,255,255,.1);margin:4px 0}
+.nlbl{color:rgba(255,255,255,.4);font-size:11px;margin-bottom:4px}
+.ncl{position:absolute;top:14px;right:14px;color:rgba(255,255,255,.5);font-size:22px;cursor:pointer;z-index:201}
 </style>
 </head>
 <body>
-<div class="phone-frame">
+<div class="phone" id="phone">
 
-<!-- NAV -->
-<div class="page" id="page-nav">
-<div class="nav-page">
-<h1>🔍 一码通行</h1>
-<p class="sub">选择入口开始体验流程</p>
-<button class="nb w" onclick="goTo('page-region')"><div class="ic" style="background:#fff0ed">🇯🇵</div><div class="tx">从地区页进入<span>地区页 → 搜索主页</span></div><div class="ar">›</div></button>
-<button class="nb t" onclick="goTo('page-search')"><div class="ic" style="background:rgba(255,255,255,.15)">🔍</div><div class="tx">直接进入搜索<span>搜索主页 → 猜你想搜</span></div><div class="ar">›</div></button>
-<div class="nav-div"></div>
-<div class="nav-label">🔎 搜索场景演示</div>
-<button class="nb t" onclick="goToResult('cn1043','join')"><div class="ic" style="background:rgba(76,175,80,.25)">✓</div><div class="tx">情况1: 正确码可加入<span>cn1043 → 结果 → 加入队伍</span></div><div class="ar">›</div></button>
-<button class="nb t" onclick="goToResult('cn1043','full')"><div class="ic" style="background:rgba(255,152,0,.25)">⚠</div><div class="tx">情况2: 队伍已满员<span>cn1043 → 结果 → 满员</span></div><div class="ar">›</div></button>
-<button class="nb t" onclick="goToResult('cn1043','already')"><div class="ic" style="background:rgba(156,39,176,.25)">👤</div><div class="tx">情况3: 已在队伍中<span>cn1043 → toast提示</span></div><div class="ar">›</div></button>
-<button class="nb t" onclick="goToResult('CX1043','error')"><div class="ic" style="background:rgba(10,132,255,.25)">✕</div><div class="tx">情况4: 完全错误码<span>CX1043 → 未找到队伍</span></div><div class="ar">›</div></button>
-<button class="nb t" onclick="goTo('page-result-wrongcode')"><div class="ic" style="background:rgba(255,152,0,.25)">📝</div><div class="tx">情况5: 组队码+错误码<span>组队码cx1043 → 跳转后点加入才报错</span></div><div class="ar">›</div></button>
-</div>
+<!-- 地区页 (主页) -->
+<div class="pg on" id="pg-region">
+<img class="bg" src="images/page_region.png">
+<div class="hot" style="top:88px;left:12px;width:351px;height:37px" onclick="go('pg-search')"></div>
 </div>
 
-<!-- REGION -->
-<div class="page active" id="page-region">
-<div class="rbg">
-<img src="images/japan_top.png" alt="地区页">
-<div class="sbox" style="top:100px" onclick="goTo('page-search')">
-<span class="si">🔍</span><span class="sp">支持搜索各种码和商家</span>
+<!-- 搜索主页 -->
+<div class="pg" id="pg-search">
+<img class="bg" src="images/page_search.png">
+<div class="paste-bar" onclick="showOv()">
+<div class="lb"><div class="ic">📋</div>来自「剪贴板」cn1043...</div>
+<div class="ac">粘贴</div>
 </div>
-</div>
-<div class="rbg"><img src="images/japan_top.png" alt="地区页下"></div>
-</div>
-
-<!-- SEARCH MAIN -->
-<div class="page" id="page-search">
-<div class="shdr">
-<div class="sbar"><span class="tm" style="color:#fff">16:35</span><img src="images/icon_union_status.svg" style="filter:brightness(10);height:14px"></div>
-<div class="smpbar">
-<div class="bk" onclick="goBack()"><svg width="10" height="18" viewBox="0 0 10 18" fill="none"><path d="M9 1L1 9L9 17" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-<div class="hm" onclick="goTo('page-nav')"><img src="images/icon_home.svg" style="filter:brightness(0) invert(1);width:20px;height:20px"></div>
-<div class="tt">搜索</div>
-<div class="cp"><img src="images/icon_mp_func.svg" style="filter:brightness(10)"></div>
-</div>
-<div class="sinput-row">
-<div class="sinput-box"><span class="si2">🔍</span><input type="text" id="search-input" placeholder="请输入" oninput="onInput()" autocomplete="off"><div class="clr" id="clr-btn" onclick="clearInput()">✕</div></div>
-<button class="sbtn" onclick="doSearch()">搜索</button>
-</div>
-<div class="stags">
-<span class="stag l">搜索可以</span><span class="stag a">搜组队码</span><span class="stag a">搜活动</span><span class="stag a">搜优惠</span><span class="stag a">搜商户</span>
-</div>
-</div>
-<div class="srd"></div>
-<!-- iPhone paste banner -->
-<div id="paste-banner" style="display:flex;align-items:center;justify-content:space-between;padding:8px 16px;background:#f0f0f0;border-bottom:1px solid #e0e0e0;cursor:pointer" onclick="showPasteChoice()">
-<div style="display:flex;align-items:center;gap:8px"><div style="width:20px;height:20px;background:#007aff;border-radius:4px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px">📋</div><span style="font-size:13px;color:#333">来自「剪贴板」 cn1043...</span></div>
-<span style="font-size:13px;color:#007aff;font-weight:500">粘贴</span>
-</div>
-<!-- Paste choice overlay -->
-<div id="paste-choice" style="display:none;position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.5);z-index:300;flex-direction:column;align-items:center;justify-content:center;padding:24px">
-<div style="background:#fff;border-radius:16px;padding:20px;width:100%;max-width:320px">
-<div style="font-size:16px;font-weight:600;text-align:center;margin-bottom:4px">选择粘贴结果</div>
-<div style="font-size:12px;color:#999;text-align:center;margin-bottom:16px">模拟粘贴 cn1043 后的不同场景</div>
-<div style="display:flex;flex-direction:column;gap:8px">
-<div onclick="hidePasteChoice();goToResult('cn1043','join')" style="padding:12px;background:#f0faf0;border-radius:10px;cursor:pointer;display:flex;align-items:center;gap:8px"><span style="font-size:16px">✅</span><div><div style="font-size:14px;font-weight:500;color:#333">正确码 — 可加入队伍</div><div style="font-size:11px;color:#999">cn1043 → 加入队伍</div></div></div>
-<div onclick="hidePasteChoice();goToResult('cn1043','full')" style="padding:12px;background:#fff8f0;border-radius:10px;cursor:pointer;display:flex;align-items:center;gap:8px"><span style="font-size:16px">⚠️</span><div><div style="font-size:14px;font-weight:500;color:#333">队伍已满员</div><div style="font-size:11px;color:#999">cn1043 → 满员提示</div></div></div>
-<div onclick="hidePasteChoice();goToResult('cn1043','already')" style="padding:12px;background:#f5f0ff;border-radius:10px;cursor:pointer;display:flex;align-items:center;gap:8px"><span style="font-size:16px">👤</span><div><div style="font-size:14px;font-weight:500;color:#333">已在队伍中</div><div style="font-size:11px;color:#999">cn1043 → 已组过队</div></div></div>
-<div onclick="hidePasteChoice();goToResult('CX1043','error')" style="padding:12px;background:#f5f5f5;border-radius:10px;cursor:pointer;display:flex;align-items:center;gap:8px"><span style="font-size:16px">❌</span><div><div style="font-size:14px;font-weight:500;color:#333">完全错误码</div><div style="font-size:11px;color:#999">CX1043 → 未找到队伍</div></div></div>
-<div onclick="hidePasteChoice();goTo('page-result-wrongcode')" style="padding:12px;background:#fff8f0;border-radius:10px;cursor:pointer;display:flex;align-items:center;gap:8px"><span style="font-size:16px">📝</span><div><div style="font-size:14px;font-weight:500;color:#333">组队码+错误码</div><div style="font-size:11px;color:#999">组队码cx1043 → 跳转后点加入才报错</div></div></div>
-</div>
-<div onclick="hidePasteChoice()" style="margin-top:12px;text-align:center;font-size:14px;color:#999;cursor:pointer">取消</div>
-</div>
-</div>
-<div class="sbody" style="height:290px">
-<div class="ss"><div class="ssh"><span class="sst">搜索记录</span><div class="ssa"><img src="images/icon_delete_history.svg"></div></div>
-<div class="stgs"><span class="stg" onclick="fillSearch('沙沙')">沙沙</span><span class="stg" onclick="fillSearch('sasa')">sasa</span><span class="stg" onclick="fillSearch('麦')">麦</span><span class="stg" onclick="fillSearch('711')">711</span></div></div>
-<div class="ss"><div class="ssh"><span class="sst">猜你想搜</span></div>
-<div class="stgs"><span class="stg" onclick="goTo('page-activity')"><span style="font-size:14px">🔥</span> 日本三井公园组队返现活动</span><span class="stg" onclick="goTo('page-activity')">汇率组队活动</span></div>
-<div class="stgs" style="margin-top:8px"><span class="stg" onclick="goTo('page-merchant')">罗森免费大福</span><span class="stg" onclick="goTo('page-merchant')">万宁$25优惠券</span></div></div>
-<div class="ss"><div class="ssh"><span class="sst">朋友在搜</span></div>
-<div class="fr"><span class="fbdg">NEW</span><span class="ftx">看看朋友认为 <b style="color:#333">#物美价廉</b> 的</span></div></div>
-</div>
-<div class="kb">
-<div class="kbs"><span>我</span><span>你</span><span>那</span><span>好</span><span>他</span><span>是</span><span>不</span><span>这</span><span>在</span><span>⌄</span></div>
-<div class="kba">
-<div class="kr"><div class="kk">q</div><div class="kk">w</div><div class="kk">e</div><div class="kk">r</div><div class="kk">t</div><div class="kk">y</div><div class="kk">u</div><div class="kk">i</div><div class="kk">o</div><div class="kk">p</div></div>
-<div class="kr m"><div class="kk">a</div><div class="kk">s</div><div class="kk">d</div><div class="kk">f</div><div class="kk">g</div><div class="kk">h</div><div class="kk">j</div><div class="kk">k</div><div class="kk">l</div></div>
-<div class="kr"><div class="kk sp"><img src="images/icon_shift.svg"></div><div class="kk">z</div><div class="kk">x</div><div class="kk">c</div><div class="kk">v</div><div class="kk">b</div><div class="kk">n</div><div class="kk">m</div><div class="kk sp"><img src="images/icon_delete.svg"></div></div>
-<div class="kfr"><div class="kf n">123</div><div class="kf e">😊</div><div class="kf s">空格</div><div class="kf b" onclick="doSearch()">搜索</div></div>
-</div>
-<div class="khi"><div class="bar"></div></div>
-</div>
-</div>
-
-<!-- RESULT: JOIN -->
-<div class="page" id="page-result-join">
-<div class="rp">
-<div class="rtop">
-<div class="sbar"><span class="tm" style="color:#fff">9:00</span><img src="images/icon_union_status.svg" style="filter:brightness(10);height:14px"></div>
-<div class="smpbar">
-<div class="bk" onclick="goBack()"><svg width="10" height="18" viewBox="0 0 10 18" fill="none"><path d="M9 1L1 9L9 17" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-<div class="tt">搜索</div>
-<div class="cp"><img src="images/icon_mp_func.svg" style="filter:brightness(10)"></div>
-</div>
-</div>
-<div class="rsrow"><div class="rsinp"><span class="ri">🔍</span><span class="rt" id="r-code-join">cn1043</span><span class="rc" onclick="goTo('page-search')">✕</span></div></div>
-<div class="rtags"><span class="rtag">搜组队码</span><span class="rtag">搜活动</span><span class="rtag">搜优惠</span><span class="rtag">搜商户</span></div>
-<div class="rlbl">搜索结果</div>
-<div class="rmatch"><span class="code" id="r-match-join">cn1043</span> <span class="hint">匹配以下活动</span></div>
-<div class="acard">
-<div class="ahdr"><div class="aav"><span>MITSUI<br>OUTLET<br>PARK</span></div><div class="ainf"><div class="an">日本·大丸百货消费返现</div><div class="ad">活动时间 2025.11.30~11.30</div></div></div>
-<div class="abody">
-<div class="atrow">
-<div class="atavs"><div class="a"><img src="images/success_avatar.png"></div><div class="a"><img src="images/success_avatar.png"></div><div class="a"><img src="images/success_avatar.png"></div></div>
-<span class="atst">队伍已有<span class="ac">4</span>名队友，<span class="ac">当前享3%返现</span></span>
-</div>
-<div class="apbdg">❓ 享3%组队返现</div>
-<div class="apb"><div class="apbt"><div class="apbf" style="width:100%"></div><div class="apd"><div class="apdd"></div><div class="apdd"></div><div class="apdd l"></div></div></div></div>
-<div class="apls"><div>队伍满3千元<br>个人消费返2%</div><div>队伍满6千元<br>个人消费返2.5%</div><div class="al">队伍满1.2万元<br>个人消费返3%</div></div>
-</div>
-<div class="abtns"><button class="abtn o" onclick="goTo('page-nav')">查看活动</button><button class="abtn p" onclick="showJoinToast()">加入队伍</button></div>
-</div>
-</div>
-<div class="tov" id="toast-join"><div class="tbx">✅ 成功加入队伍</div></div>
-</div>
-
-<!-- RESULT: FULL -->
-<div class="page" id="page-result-full">
-<div class="rp">
-<div class="rtop">
-<div class="sbar"><span class="tm" style="color:#fff">9:00</span><img src="images/icon_union_status.svg" style="filter:brightness(10);height:14px"></div>
-<div class="smpbar">
-<div class="bk" onclick="goBack()"><svg width="10" height="18" viewBox="0 0 10 18" fill="none"><path d="M9 1L1 9L9 17" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-<div class="tt">搜索</div>
-<div class="cp"><img src="images/icon_mp_func.svg" style="filter:brightness(10)"></div>
-</div>
-</div>
-<div class="rsrow"><div class="rsinp"><span class="ri">🔍</span><span class="rt">cn1043</span><span class="rc" onclick="goTo('page-search')">✕</span></div></div>
-<div class="rtags"><span class="rtag">搜组队码</span><span class="rtag">搜活动</span><span class="rtag">搜优惠</span><span class="rtag">搜商户</span></div>
-<div class="rlbl">搜索结果</div>
-<div class="rmatch"><span class="code">cn1043</span> <span class="hint">匹配以下活动</span></div>
-<div class="acard">
-<div class="ahdr"><div class="aav"><span>MITSUI<br>OUTLET<br>PARK</span></div><div class="ainf"><div class="an">日本·大丸百货消费返现</div><div class="ad">活动时间 2025.11.30~11.30</div></div></div>
-<div class="abody">
-<div class="atrow">
-<div class="atavs"><div class="a"><img src="images/success_avatar.png"></div><div class="a"><img src="images/success_avatar.png"></div><div class="a"><img src="images/success_avatar.png"></div></div>
-<span class="atst ft">队伍已满员</span>
-</div>
-<div class="apbdg">❓ 享3%组队返现</div>
-<div class="apb"><div class="apbt"><div class="apbf" style="width:100%"></div><div class="apd"><div class="apdd"></div><div class="apdd"></div><div class="apdd l"></div></div></div></div>
-<div class="apls"><div>队伍满3千元<br>个人消费返2%</div><div>队伍满6千元<br>个人消费返2.5%</div><div class="al">队伍满1.2万元<br>个人消费返3%</div></div>
-</div>
-<div class="abtns"><button class="abtn o" onclick="goTo('page-nav')">查看活动</button><button class="abtn p" onclick="goTo('page-nav')">我知道了</button></div>
+<div class="hot" style="top:48px;left:8px;width:32px;height:32px" onclick="goBack()"></div>
+<div class="hot" style="top:48px;left:40px;width:32px;height:32px" onclick="go('pg-region')"></div>
+<div class="hot" style="top:308px;left:16px;width:200px;height:32px" onclick="go('pg-activity')"></div>
+<div class="hot" style="top:308px;left:220px;width:130px;height:32px" onclick="go('pg-activity')"></div>
+<div class="hot" style="top:352px;left:16px;width:110px;height:32px" onclick="go('pg-merchant')"></div>
+<div class="hot" style="top:352px;left:135px;width:140px;height:32px" onclick="go('pg-merchant')"></div>
+<div class="ov" id="ov1">
+<div class="ovb">
+<div class="ovt">选择粘贴结果</div>
+<div class="ovs">模拟粘贴后的不同场景</div>
+<div class="ovi" style="background:#f0faf0" onclick="hideOv();go('pg-result-join')"><div style="font-size:16px">✅</div><div><div class="t">正确码 — 可加入队伍</div><div class="d">cn1043 → 加入队伍</div></div></div>
+<div class="ovi" style="background:#fff8f0" onclick="hideOv();go('pg-result-full')"><div style="font-size:16px">⚠️</div><div><div class="t">队伍已满员</div><div class="d">cn1043 → 满员提示</div></div></div>
+<div class="ovi" style="background:#f5f0ff" onclick="hideOv();go('pg-result-already')"><div style="font-size:16px">👤</div><div><div class="t">已在队伍中</div><div class="d">cn1043 → 已组过队</div></div></div>
+<div class="ovi" style="background:#f5f5f5" onclick="hideOv();go('pg-result-error')"><div style="font-size:16px">❌</div><div><div class="t">完全错误码 CX1043</div><div class="d">直接toast报错</div></div></div>
+<div class="ovi" style="background:#fff8f0" onclick="hideOv();go('pg-wrongcode')"><div style="font-size:16px">📝</div><div><div class="t">组队码cx1043</div><div class="d">弹窗确认 → 点加入才报错</div></div></div>
+<div class="ovc" onclick="hideOv()">取消</div>
 </div>
 </div>
 </div>
 
-<!-- RESULT: ALREADY IN TEAM (Toast on search page) -->
-<div class="page" id="page-result-already">
-<div class="rp">
-<div class="rtop">
-<div class="sbar"><span class="tm" style="color:#fff">9:00</span><img src="images/icon_union_status.svg" style="filter:brightness(10);height:14px"></div>
-<div class="smpbar">
-<div class="bk" onclick="goBack()"><svg width="10" height="18" viewBox="0 0 10 18" fill="none"><path d="M9 1L1 9L9 17" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-<div class="tt">搜索</div>
-<div class="cp"><img src="images/icon_mp_func.svg" style="filter:brightness(10)"></div>
-</div>
-</div>
-<div class="rsrow"><div class="rsinp"><span class="ri">🔍</span><span class="rt">cn1043</span><span class="rc" onclick="goTo('page-search')">✕</span></div></div>
-<div class="rtags"><span class="rtag">搜组队码</span><span class="rtag">搜活动</span><span class="rtag">搜优惠</span><span class="rtag">搜商户</span></div>
-<div class="rlbl">搜索结果</div>
-<div class="rmatch"><span class="code">cn1043</span> <span class="hint">匹配以下活动</span></div>
-<div class="acard">
-<div class="ahdr"><div class="aav"><span>MITSUI<br>OUTLET<br>PARK</span></div><div class="ainf"><div class="an">日本·大丸百货消费返现</div><div class="ad">活动时间 2025.11.30~11.30</div></div></div>
-<div class="abody">
-<div class="atrow">
-<div class="atavs"><div class="a"><img src="images/success_avatar.png"></div><div class="a"><img src="images/success_avatar.png"></div><div class="a"><img src="images/success_avatar.png"></div></div>
-<span class="atst">队伍已有<span class="ac">4</span>名队友，<span class="ac">当前享3%返现</span></span>
-</div>
-<div class="apbdg">❓ 享3%组队返现</div>
-<div class="apb"><div class="apbt"><div class="apbf" style="width:100%"></div><div class="apd"><div class="apdd"></div><div class="apdd"></div><div class="apdd l"></div></div></div></div>
-<div class="apls"><div>队伍满3千元<br>个人消费返2%</div><div>队伍满6千元<br>个人消费返2.5%</div><div class="al">队伍满1.2万元<br>个人消费返3%</div></div>
-</div>
-<div class="abtns"><button class="abtn o" onclick="goTo('page-nav')">查看活动</button><button class="abtn p" onclick="goTo('page-nav')">加入队伍</button></div>
-</div>
-<div class="tov on" id="toast-already"><div class="tbx">当前已在队伍中</div></div>
-</div>
+<!-- 结果: 正确码可加入 -->
+<div class="pg" id="pg-result-join">
+<img class="bg" src="images/page_result_join.png">
+<div class="hot" style="top:48px;left:8px;width:32px;height:32px" onclick="goBack()"></div>
+<div class="hot" style="top:458px;left:65px;width:110px;height:40px" onclick="go('pg-activity')"></div>
+<div class="hot" style="top:458px;left:195px;width:110px;height:40px" onclick="toast('join')"></div>
+<div class="toast" id="t-join">✅ 成功加入队伍</div>
 </div>
 
-<!-- RESULT: ERROR CODE -->
-<div class="page" id="page-result-error">
-<div class="shdr">
-<div class="sbar"><span class="tm" style="color:#fff">16:35</span><img src="images/icon_union_status.svg" style="filter:brightness(10);height:14px"></div>
-<div class="smpbar">
-<div class="bk" onclick="goBack()"><svg width="10" height="18" viewBox="0 0 10 18" fill="none"><path d="M9 1L1 9L9 17" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-<div class="hm" onclick="goTo('page-nav')"><img src="images/icon_home.svg" style="filter:brightness(0) invert(1);width:20px;height:20px"></div>
-<div class="tt">搜索</div>
-<div class="cp"><img src="images/icon_mp_func.svg" style="filter:brightness(10)"></div>
-</div>
-<div class="sinput-row">
-<div class="sinput-box"><span class="si2">🔍</span><input type="text" value="CX1043" readonly></div>
-<button class="sbtn" onclick="goTo('page-search')">搜索</button>
-</div>
-<div class="stags"><span class="stag l">搜索可以</span><span class="stag a">搜组队码</span><span class="stag a">搜活动</span><span class="stag a">搜优惠</span><span class="stag a">搜商户</span></div>
-</div>
-<div class="srd"></div>
-<div class="sbody" style="height:326px">
-<div class="ss"><div class="ssh"><span class="sst">搜索记录</span><div class="ssa"><img src="images/icon_delete_history.svg"></div></div>
-<div class="stgs"><span class="stg">沙沙</span><span class="stg">sasa</span><span class="stg">麦</span><span class="stg">711</span></div></div>
-<div class="ss"><div class="ssh"><span class="sst">猜你想搜</span></div>
-<div class="stgs"><span class="stg" onclick="goToResult('cn1043','join')"><span style="font-size:14px">🔥</span> 日本三井公园组队返现活动</span><span class="stg" onclick="goToResult('cn1043','join')">汇率组队活动</span></div>
-<div class="stgs" style="margin-top:8px"><span class="stg" onclick="goTo('page-merchant')">罗森免费大福</span><span class="stg" onclick="goTo('page-merchant')">万宁$25优惠券</span></div></div>
-<div class="ss"><div class="ssh"><span class="sst">朋友在搜</span></div>
-<div class="fr"><span class="fbdg">NEW</span><span class="ftx">看看朋友认为 <b style="color:#333">#物美价廉</b> 的</span></div></div>
-</div>
-<div class="kb">
-<div class="kbs"><span>我</span><span>你</span><span>那</span><span>好</span><span>他</span><span>是</span><span>不</span><span>这</span><span>在</span><span>⌄</span></div>
-<div class="kba">
-<div class="kr"><div class="kk">q</div><div class="kk">w</div><div class="kk">e</div><div class="kk">r</div><div class="kk">t</div><div class="kk">y</div><div class="kk">u</div><div class="kk">i</div><div class="kk">o</div><div class="kk">p</div></div>
-<div class="kr m"><div class="kk">a</div><div class="kk">s</div><div class="kk">d</div><div class="kk">f</div><div class="kk">g</div><div class="kk">h</div><div class="kk">j</div><div class="kk">k</div><div class="kk">l</div></div>
-<div class="kr"><div class="kk sp"><img src="images/icon_shift.svg"></div><div class="kk">z</div><div class="kk">x</div><div class="kk">c</div><div class="kk">v</div><div class="kk">b</div><div class="kk">n</div><div class="kk">m</div><div class="kk sp"><img src="images/icon_delete.svg"></div></div>
-<div class="kfr"><div class="kf n">123</div><div class="kf e">😊</div><div class="kf s">空格</div><div class="kf b">搜索</div></div>
-</div>
-<div class="khi"><div class="bar"></div></div>
-</div>
-<div class="tov on" id="toast-error"><div class="tbx">未找到队伍，<br>请检查组队码！</div></div>
+<!-- 结果: 满员 -->
+<div class="pg" id="pg-result-full">
+<img class="bg" src="images/page_result_full.png">
+<div class="hot" style="top:48px;left:8px;width:32px;height:32px" onclick="goBack()"></div>
+<div class="hot" style="top:458px;left:65px;width:110px;height:40px" onclick="go('pg-activity')"></div>
+<div class="hot" style="top:458px;left:195px;width:110px;height:40px" onclick="goBack()"></div>
 </div>
 
-<!-- RESULT: 组队码cx1043 (中间态弹窗：请确认组队返现码) -->
-<div class="page" id="page-result-wrongcode">
-<!-- 背景：微信支付全球有礼 header -->
-<div style="background:#e64c30;height:88px">
-<div class="sbar"><span class="tm" style="color:#fff">9:00</span><img src="images/icon_union_status.svg" style="filter:brightness(10);height:14px"></div>
-<div class="smpbar">
-<div class="bk" onclick="goBack()"><svg width="10" height="18" viewBox="0 0 10 18" fill="none"><path d="M9 1L1 9L9 17" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-<div class="hm" onclick="goTo('page-region')"><img src="images/icon_home.svg" style="filter:brightness(0) invert(1);width:20px;height:20px"></div>
-<div class="tt" style="color:#fff">微信支付全球有礼</div>
-<div class="cp"><img src="images/icon_mp_func.svg" style="filter:brightness(10)"></div>
-</div>
-</div>
-<!-- 半透明遮罩 -->
-<div style="background:rgba(0,0,0,.4);position:absolute;top:88px;left:0;right:0;bottom:0;z-index:10"></div>
-<!-- 弹窗 -->
-<div style="position:absolute;top:76px;left:0;right:0;z-index:20;background:#fff;border-radius:16px 16px 0 0;padding:20px 20px 0">
-<!-- 标题 + 关闭 -->
-<div style="display:flex;align-items:center;justify-content:center;position:relative;margin-bottom:16px">
-<span style="font-size:18px;font-weight:600;color:#000">请确认组队返现码</span>
-<span onclick="goBack()" style="position:absolute;right:0;font-size:20px;color:#999;cursor:pointer">✕</span>
-</div>
-<!-- Tips + 海报 -->
-<div style="display:flex;gap:12px;background:#f8f8f8;border-radius:12px;padding:14px;margin-bottom:16px;min-height:110px">
-<div style="flex:1">
-<div style="display:inline-block;background:#ff6b35;color:#fff;font-size:10px;padding:2px 6px;border-radius:4px;margin-bottom:8px">Tips</div>
-<div style="font-size:13px;color:#333;line-height:1.6">此码为"<span style="color:#e64c30">三井购物公园组队返现</span>"活动的组队码，点击加入</div>
-</div>
-<div style="width:120px;height:90px;background:linear-gradient(135deg,#ff6b4a,#e64c30);border-radius:8px;flex-shrink:0;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;font-size:9px;line-height:1.4;text-align:center;padding:6px">
-<div style="font-size:8px;opacity:.8">日本三井購物公園</div>
-<div style="font-weight:700;font-size:11px;margin:2px 0">日本三井购物公园</div>
-<div style="font-size:9px">组队消费冲</div>
-<div style="font-size:14px;font-weight:700">3%<span style="font-size:9px"> 返现</span></div>
-</div>
-</div>
-<!-- 码框: C x 1 0 4 3 -->
-<div style="display:flex;gap:8px;justify-content:center;margin-bottom:20px">
-<div style="width:44px;height:50px;background:#f5f5f5;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:600">C</div>
-<div style="width:44px;height:50px;background:#f5f5f5;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:600">x</div>
-<div style="width:44px;height:50px;background:#f5f5f5;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:600">1</div>
-<div style="width:44px;height:50px;background:#f5f5f5;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:600">0</div>
-<div style="width:44px;height:50px;background:#f5f5f5;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:600">4</div>
-<div style="width:44px;height:50px;background:#f5f5f5;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:600">3</div>
-</div>
-<!-- 按钮: 取消 / 加入队伍 -->
-<div style="display:flex;gap:12px;margin-bottom:16px">
-<button onclick="goBack()" style="flex:1;height:44px;border-radius:22px;background:#f5f5f5;color:#333;font-size:16px;border:none;cursor:pointer">取消</button>
-<button onclick="showWrongCodeToast()" style="flex:1;height:44px;border-radius:22px;background:#e64c30;color:#fff;font-size:16px;border:none;cursor:pointer">加入队伍</button>
-</div>
-</div>
-<!-- 键盘 -->
-<div style="position:absolute;bottom:0;left:0;right:0;z-index:30">
-<div class="kb" style="border-top:none">
-<div class="kba">
-<div class="kr" style="margin-bottom:8px">
-<div class="kk" style="font-size:24px;height:46px">1</div><div class="kk" style="font-size:24px;height:46px">2</div><div class="kk" style="font-size:24px;height:46px">3</div><div class="kk" style="font-size:24px;height:46px">4</div><div class="kk" style="font-size:24px;height:46px">5</div><div class="kk" style="font-size:24px;height:46px">6</div><div class="kk" style="font-size:24px;height:46px">7</div><div class="kk" style="font-size:24px;height:46px">8</div><div class="kk" style="font-size:24px;height:46px">9</div><div class="kk" style="font-size:24px;height:46px">0</div>
-</div>
-<div class="kr">
-<div class="kk">q</div><div class="kk">w</div><div class="kk">e</div><div class="kk">r</div><div class="kk">t</div><div class="kk">y</div><div class="kk">u</div><div class="kk">i</div><div class="kk">o</div><div class="kk">p</div>
-</div>
-<div class="kr m"><div class="kk">a</div><div class="kk">s</div><div class="kk">d</div><div class="kk">f</div><div class="kk">g</div><div class="kk">h</div><div class="kk">j</div><div class="kk">k</div><div class="kk">l</div></div>
-<div class="kr"><div class="kk sp"><img src="images/icon_shift.svg"></div><div class="kk">z</div><div class="kk">x</div><div class="kk">c</div><div class="kk">v</div><div class="kk">b</div><div class="kk">n</div><div class="kk">m</div><div class="kk sp"><img src="images/icon_delete.svg"></div></div>
-</div>
-<div class="khi"><div class="bar"></div></div>
-</div>
-</div>
-<!-- Toast -->
-<div class="tov" id="toast-wrongcode"><div class="tbx">未找到队伍，<br>请检查组队码！</div></div>
+<!-- 结果: 已在队伍中 -->
+<div class="pg" id="pg-result-already">
+<img class="bg" src="images/page_result_already.png">
+<div class="hot" style="top:48px;left:8px;width:32px;height:32px" onclick="goBack()"></div>
 </div>
 
-<!-- MERCHANT DETAIL -->
-<div class="page" id="page-merchant">
-<div class="mdp">
-<div class="mdtop">
-<div class="sbar"><span class="tm">19:23</span><img src="images/icon_union_status.svg" style="height:14px"></div>
-<div class="smpbar" style="background:#fff">
-<div class="bk" onclick="goBack()"><svg width="10" height="18" viewBox="0 0 10 18" fill="none"><path d="M9 1L1 9L9 17" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-<div class="hm" onclick="goTo('page-nav')"><img src="images/icon_home.svg" style="width:20px;height:20px"></div>
-<div class="tt" style="color:#000">微信支付全球有礼</div>
-<div class="cp"><img src="images/icon_mp_func.svg"></div>
-</div>
-</div>
-<div class="mdh">
-<div class="mdmr">
-<div class="mdma"><span>mannings<br>万宁</span></div>
-<div class="mdmi"><div class="mdmn">香港万宁 ‸</div><div class="mdmb">线下门店</div></div>
-<div style="font-size:22px;cursor:pointer">♡</div>
-</div>
-<div class="mdloc">
-<div class="mdlr"><span class="icon">📍</span> 附近门店 | 万宁 天澤（距你9.5km）</div>
-<div class="mdlr"><span class="icon">📮</span> 新界天水圍天瑞路71, 73, 75及77號天澤邨天澤商場2樓210A鋪</div>
-</div>
-<div class="mdms">查看更多门店 ›</div>
-</div>
-<div class="mds">
-<div class="mdst">汇率优惠</div>
-<div class="mdrc">
-<div class="mdrl">✅ 商家专享汇率券</div>
-<div class="mdrv"><span class="bg">100</span><span class="un">港币 =</span><span class="eq">90.63</span><span class="un">人民币</span></div>
-<div class="mdrd">市场价 91.74 人民币</div>
-<div style="display:flex;justify-content:space-between;align-items:center"><div class="mdrd">本店到店使用 | 每万元人民币省122.47元</div><button class="mdrb">去使用</button></div>
-</div>
-</div>
-<div class="mds">
-<div class="mdst">本店优惠</div>
-<div class="mdci"><div class="mdcimg"></div><div class="mdcinf"><div class="mdcn">万宁自家品牌$25优惠券</div><div class="mdcd">到店 | 購買万宁自家品牌 / Mannings Guardian...</div></div></div>
-</div>
-<div class="mdml">更多当地优惠 ›</div>
-</div>
+<!-- 结果: 完全错误码 -->
+<div class="pg" id="pg-result-error">
+<img class="bg" src="images/page_result_error.png">
+<div class="hot" style="top:48px;left:8px;width:32px;height:32px" onclick="goBack()"></div>
+<div class="hot" style="top:48px;left:40px;width:32px;height:32px" onclick="go('pg-region')"></div>
 </div>
 
-<!-- ACTIVITY DETAIL (日本三井购物公园) -->
-<div class="page" id="page-activity">
-<div style="min-height:812px;background:#f8f4ef">
-<div class="sbar"><span class="tm">9:00</span><img src="images/icon_union_status.svg" style="height:14px"></div>
-<div class="smpbar" style="background:transparent">
-<div class="bk" onclick="goBack()"><svg width="10" height="18" viewBox="0 0 10 18" fill="none"><path d="M9 1L1 9L9 17" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-<div class="tt" style="color:#000">微信支付全球有礼</div>
-<div class="cp"><img src="images/icon_mp_func.svg"></div>
+<!-- 组队码cx1043: 中间态弹窗 -->
+<div class="pg" id="pg-wrongcode">
+<img class="bg" src="images/page_confirm_wrongcode.png">
+<div class="hot" style="top:90px;left:330px;width:36px;height:36px" onclick="goBack()"></div>
+<div class="hot" style="top:460px;left:40px;width:130px;height:44px" onclick="goBack()"></div>
+<div class="hot" style="top:460px;left:195px;width:150px;height:44px" onclick="go('pg-wrongcode-toast')"></div>
 </div>
-<!-- Activity hero -->
-<div style="background:linear-gradient(180deg,#f5a623,#f5a623 60%,#f8f4ef);padding:0 16px 20px;text-align:center;position:relative">
-<div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
-<div style="width:60px;height:60px;background:#fff;border-radius:12px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.1)"><span style="font-size:8px;font-weight:700;color:#f5a623;text-align:center;line-height:1.1">MITSUI<br>OUTLET<br>PARK</span></div>
-<div style="flex:1;text-align:left"><div style="font-size:20px;font-weight:700;color:#fff">日本三井购物公园</div><div style="font-size:11px;color:rgba(255,255,255,.8)">查看活动门店 查看活动门店</div></div>
-<div style="background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.5);color:#fff;font-size:12px;padding:4px 12px;border-radius:16px">活动门店</div>
+
+<!-- 组队码cx1043: 点加入后toast -->
+<div class="pg" id="pg-wrongcode-toast">
+<img class="bg" src="images/page_confirm_wrongcode_toast.png">
+<div class="hot" style="top:90px;left:330px;width:36px;height:36px" onclick="goBack()"></div>
+<div class="hot" style="top:460px;left:40px;width:130px;height:44px" onclick="goBack()"></div>
 </div>
+
+<!-- 商户详情 -->
+<div class="pg" id="pg-merchant">
+<img class="bg" src="images/page_merchant.png">
+<div class="hot" style="top:48px;left:8px;width:32px;height:32px" onclick="goBack()"></div>
 </div>
-<!-- Activity info card -->
-<div style="margin:-10px 16px 0;background:#fff;border-radius:16px;padding:20px;box-shadow:0 2px 8px rgba(0,0,0,.06)">
-<div style="font-size:20px;font-weight:700;color:#e64c30;margin-bottom:4px">组队消费 最高享3%返现</div>
-<div style="font-size:12px;color:#999;margin-bottom:16px">部分门店参与 领完即止 | 活动截止2025年8月31日</div>
-<!-- 参与有礼 -->
-<div style="background:#fff8f0;border:1px solid #ffe0b2;border-radius:12px;padding:14px;margin-bottom:12px">
-<div style="display:flex;align-items:center;gap:6px;margin-bottom:8px"><span style="color:#f5a623;font-size:14px">🎁</span><span style="font-size:14px;font-weight:600;color:#333">参与有礼</span><span style="font-size:12px;color:#999">单人消费达标可享</span></div>
-<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0">
-<div><span style="font-size:13px;color:#666">个人消费满</span><span style="font-size:18px;font-weight:700;color:#000">600.00</span><span style="font-size:13px;color:#666">元</span></div>
-<div><span style="font-size:13px;color:#666">可享返现</span><span style="font-size:22px;font-weight:700;color:#e64c30"> 1%</span></div>
+
+<!-- 活动详情 -->
+<div class="pg" id="pg-activity">
+<img class="bg" src="images/page_activity.png">
+<div class="hot" style="top:48px;left:8px;width:32px;height:32px" onclick="goBack()"></div>
 </div>
-</div>
-<!-- 组队返现 -->
-<div style="background:#fff8f0;border:1px solid #ffe0b2;border-radius:12px;padding:14px;margin-bottom:16px">
-<div style="display:flex;align-items:center;gap:6px;margin-bottom:10px"><span style="color:#f5a623;font-size:14px">🎁</span><span style="font-size:14px;font-weight:600;color:#333">组队返现</span><span style="font-size:12px;color:#e64c30">2人组队且都有消费可享</span></div>
-<div style="display:flex;justify-content:space-around;text-align:center">
-<div><div style="font-size:12px;color:#999;margin-bottom:4px">队伍满3千元</div><div style="font-size:12px;color:#999">个人消费返</div><div style="font-size:24px;font-weight:700;color:#e64c30">2%</div></div>
-<div><div style="font-size:12px;color:#999;margin-bottom:4px">队伍满6千元</div><div style="font-size:12px;color:#999">个人消费返</div><div style="font-size:24px;font-weight:700;color:#e64c30">2.5%</div></div>
-<div><div style="font-size:12px;color:#999;margin-bottom:4px">队伍满1.2万元</div><div style="font-size:12px;color:#999">个人消费返</div><div style="font-size:24px;font-weight:700;color:#e64c30">3%</div></div>
-</div>
-</div>
-<!-- Buttons -->
-<div style="text-align:center">
-<div style="font-size:10px;color:#e64c30;margin-bottom:4px;text-align:right">参与后即可累计消费</div>
-<button style="width:200px;height:44px;background:linear-gradient(90deg,#ff9800,#ff6d00);border:none;border-radius:22px;color:#fff;font-size:16px;font-weight:600;cursor:pointer">参与返现</button>
-<div style="margin-top:8px;font-size:13px;color:#666;cursor:pointer">加入其他队伍 ›</div>
-</div>
-</div>
-<!-- Activity description -->
-<div style="margin:12px 16px;background:#fff;border-radius:16px;padding:16px">
-<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><span style="font-size:16px;font-weight:600">活动说明</span><span style="font-size:13px;color:#576b95">查看更多规则 ›</span></div>
-<div style="display:flex;gap:12px">
-<div style="flex:1;background:#f8f8f8;border-radius:8px;padding:12px"><div style="font-size:13px;font-weight:500;margin-bottom:4px">先参与再邀请</div><div style="font-size:11px;color:#999;line-height:1.5">参与活动后，即可累计消费；支持消费后组队，组队时可带上已消费金额</div></div>
-<div style="flex:1;background:#f8f8f8;border-radius:8px;padding:12px"><div style="display:flex;align-items:center;gap:4px;margin-bottom:4px"><span style="font-size:13px">💰</span><span style="font-size:13px;font-weight:500">结束即可领返现</span></div><div style="font-size:11px;color:#999;line-height:1.5">个人返现最高1000元，活动结束后可领返现；30天内未领取，则过期失效</div></div>
-</div>
-</div>
-</div>
+
+<!-- 导航浮层 (双击顶部打开) -->
+<div class="nav" id="nav">
+<div class="ncl" onclick="hideNav()">✕</div>
+<h2>🔍 一码通行</h2>
+<div class="sub">选择入口开始体验</div>
+<div class="ni" onclick="hideNav();go('pg-region')"><div class="ic" style="background:rgba(230,67,64,.2)">🇯🇵</div><div class="tx">地区页 (主页)<span>点击搜索栏进入搜索</span></div></div>
+<div class="ni" onclick="hideNav();go('pg-search')"><div class="ic" style="background:rgba(10,132,255,.2)">🔍</div><div class="tx">搜索主页<span>搜索记录 + 猜你想搜</span></div></div>
+<div class="ndiv"></div>
+<div class="nlbl">🔎 搜索场景</div>
+<div class="ni" onclick="hideNav();go('pg-result-join')"><div class="ic" style="background:rgba(76,175,80,.2)">✓</div><div class="tx">情况1: 正确码可加入<span>cn1043 → 加入队伍</span></div></div>
+<div class="ni" onclick="hideNav();go('pg-result-full')"><div class="ic" style="background:rgba(255,152,0,.2)">⚠</div><div class="tx">情况2: 队伍满员<span>cn1043 → 满员</span></div></div>
+<div class="ni" onclick="hideNav();go('pg-result-already')"><div class="ic" style="background:rgba(156,39,176,.2)">👤</div><div class="tx">情况3: 已在队伍中<span>toast提示</span></div></div>
+<div class="ni" onclick="hideNav();go('pg-result-error')"><div class="ic" style="background:rgba(10,132,255,.2)">✕</div><div class="tx">情况4: 完全错误码<span>CX1043 → 未找到</span></div></div>
+<div class="ni" onclick="hideNav();go('pg-wrongcode')"><div class="ic" style="background:rgba(255,152,0,.2)">📝</div><div class="tx">情况5: 组队码cx1043<span>弹窗确认 → 点加入才报错</span></div></div>
+<div class="ndiv"></div>
+<div class="ni" onclick="hideNav();go('pg-activity')"><div class="ic" style="background:rgba(245,166,35,.2)">🎁</div><div class="tx">活动详情页<span>日本三井购物公园</span></div></div>
+<div class="ni" onclick="hideNav();go('pg-merchant')"><div class="ic" style="background:rgba(245,130,32,.2)">🏪</div><div class="tx">商户详情页<span>香港万宁</span></div></div>
 </div>
 
 </div>
-
 <script>
-let cur='page-region',hist=['page-region'];
-function goTo(id){
-  document.getElementById(cur).classList.remove('active');
-  document.getElementById(cur).style.display='none';
-  document.getElementById(id).classList.add('active');
-  document.getElementById(id).style.display='block';
-  if(id!==cur)hist.push(id);
-  cur=id;
-}
-function goBack(){
-  if(hist.length>1){hist.pop();goTo(hist[hist.length-1]);if(hist.length>1&&hist[hist.length-1]===hist[hist.length-2])hist.pop()}
-  else goTo('page-region');
-}
-function showPasteChoice(){
-  document.getElementById('paste-choice').style.display='flex';
-}
-function hidePasteChoice(){
-  document.getElementById('paste-choice').style.display='none';
-}
-function goToResult(code,type){
-  var pageId='page-result-'+type;
-  goTo(pageId);
-  // Reset toasts with animation
-  if(type==='already'){
-    var t=document.getElementById('toast-already');
-    t.classList.remove('on');void t.offsetWidth;t.classList.add('on');
-  }
-  if(type==='error'){
-    var t=document.getElementById('toast-error');
-    t.classList.remove('on');void t.offsetWidth;t.classList.add('on');
-  }
-}
-function onInput(){
-  var v=document.getElementById('search-input').value;
-  var c=document.getElementById('clr-btn');
-  c.style.display=v?'flex':'none';
-}
-function clearInput(){
-  document.getElementById('search-input').value='';
-  document.getElementById('clr-btn').style.display='none';
-}
-function fillSearch(kw){
-  document.getElementById('search-input').value=kw;
-  document.getElementById('clr-btn').style.display='flex';
-}
-function doSearch(){
-  var v=document.getElementById('search-input').value.trim().toLowerCase();
-  if(!v)return;
-  if(v.indexOf('cn')>=0&&v.indexOf('1043')>=0){goToResult(v,'join');}
-  else if(v.indexOf('cx')>=0){goToResult(v,'error');}
-  else{goToResult(v,'error');}
-}
-function showJoinToast(){
-  var t=document.getElementById('toast-join');
-  t.classList.remove('on');void t.offsetWidth;t.classList.add('on');
-  setTimeout(function(){t.classList.remove('on')},2500);
-}
-function showWrongCodeToast(){
-  var t=document.getElementById('toast-wrongcode');
-  t.classList.remove('on');void t.offsetWidth;t.classList.add('on');
-  setTimeout(function(){t.classList.remove('on')},2500);
-}
-document.querySelectorAll('.page').forEach(function(p){if(!p.classList.contains('active'))p.style.display='none'});
+var cur='pg-region',hist=['pg-region'];
+function go(id){document.getElementById(cur).classList.remove('on');document.getElementById(id).classList.add('on');if(id!==cur)hist.push(id);cur=id;document.getElementById(id).scrollTop=0}
+function goBack(){if(hist.length>1){hist.pop();var p=hist[hist.length-1];document.getElementById(cur).classList.remove('on');document.getElementById(p).classList.add('on');cur=p}else go('pg-region')}
+function showOv(){document.getElementById('ov1').classList.add('on')}
+function hideOv(){document.getElementById('ov1').classList.remove('on')}
+function showNav(){document.getElementById('nav').classList.add('on')}
+function hideNav(){document.getElementById('nav').classList.remove('on')}
+function toast(id){var t=document.getElementById('t-'+id);t.className='toast show';setTimeout(function(){t.className='toast'},2500)}
+document.getElementById('phone').addEventListener('dblclick',function(e){var r=this.getBoundingClientRect();if(e.clientY-r.top<44)showNav()});
 </script>
 </body>
 </html>
