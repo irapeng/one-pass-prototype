@@ -195,6 +195,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC',sans-serif;backg
 <button class="nb t" onclick="goToResult('cn1043','full')"><div class="ic" style="background:rgba(255,152,0,.25)">⚠</div><div class="tx">情况2: 队伍已满员<span>cn1043 → 结果 → 满员</span></div><div class="ar">›</div></button>
 <button class="nb t" onclick="goToResult('cn1043','already')"><div class="ic" style="background:rgba(156,39,176,.25)">👤</div><div class="tx">情况3: 已在队伍中<span>cn1043 → toast提示</span></div><div class="ar">›</div></button>
 <button class="nb t" onclick="goToResult('CX1043','error')"><div class="ic" style="background:rgba(10,132,255,.25)">✕</div><div class="tx">情况4: 完全错误码<span>CX1043 → 未找到队伍</span></div><div class="ar">›</div></button>
+<button class="nb t" onclick="goTo('page-result-wrongcode')"><div class="ic" style="background:rgba(255,152,0,.25)">📝</div><div class="tx">情况5: 组队码+错误码<span>组队码cx1043 → 跳转后点加入才报错</span></div><div class="ar">›</div></button>
 </div>
 </div>
 
@@ -243,6 +244,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC',sans-serif;backg
 <div onclick="hidePasteChoice();goToResult('cn1043','full')" style="padding:12px;background:#fff8f0;border-radius:10px;cursor:pointer;display:flex;align-items:center;gap:8px"><span style="font-size:16px">⚠️</span><div><div style="font-size:14px;font-weight:500;color:#333">队伍已满员</div><div style="font-size:11px;color:#999">cn1043 → 满员提示</div></div></div>
 <div onclick="hidePasteChoice();goToResult('cn1043','already')" style="padding:12px;background:#f5f0ff;border-radius:10px;cursor:pointer;display:flex;align-items:center;gap:8px"><span style="font-size:16px">👤</span><div><div style="font-size:14px;font-weight:500;color:#333">已在队伍中</div><div style="font-size:11px;color:#999">cn1043 → 已组过队</div></div></div>
 <div onclick="hidePasteChoice();goToResult('CX1043','error')" style="padding:12px;background:#f5f5f5;border-radius:10px;cursor:pointer;display:flex;align-items:center;gap:8px"><span style="font-size:16px">❌</span><div><div style="font-size:14px;font-weight:500;color:#333">完全错误码</div><div style="font-size:11px;color:#999">CX1043 → 未找到队伍</div></div></div>
+<div onclick="hidePasteChoice();goTo('page-result-wrongcode')" style="padding:12px;background:#fff8f0;border-radius:10px;cursor:pointer;display:flex;align-items:center;gap:8px"><span style="font-size:16px">📝</span><div><div style="font-size:14px;font-weight:500;color:#333">组队码+错误码</div><div style="font-size:11px;color:#999">组队码cx1043 → 跳转后点加入才报错</div></div></div>
 </div>
 <div onclick="hidePasteChoice()" style="margin-top:12px;text-align:center;font-size:14px;color:#999;cursor:pointer">取消</div>
 </div>
@@ -402,6 +404,38 @@ body{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC',sans-serif;backg
 <div class="tov on" id="toast-error"><div class="tbx">未找到队伍，<br>请检查组队码！</div></div>
 </div>
 
+<!-- RESULT: 组队码cx1043 (文字+错误码，仍跳转组队页，点加入后提示错误) -->
+<div class="page" id="page-result-wrongcode">
+<div class="rp">
+<div class="rtop">
+<div class="sbar"><span class="tm" style="color:#fff">9:00</span><img src="images/icon_union_status.svg" style="filter:brightness(10);height:14px"></div>
+<div class="smpbar">
+<div class="bk" onclick="goBack()"><svg width="10" height="18" viewBox="0 0 10 18" fill="none"><path d="M9 1L1 9L9 17" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+<div class="tt">搜索</div>
+<div class="cp"><img src="images/icon_mp_func.svg" style="filter:brightness(10)"></div>
+</div>
+</div>
+<div class="rsrow"><div class="rsinp"><span class="ri">🔍</span><span class="rt">组队码cx1043</span><span class="rc" onclick="goTo('page-search')">✕</span></div></div>
+<div class="rtags"><span class="rtag">搜组队码</span><span class="rtag">搜活动</span><span class="rtag">搜优惠</span><span class="rtag">搜商户</span></div>
+<div class="rlbl">搜索结果</div>
+<div class="rmatch"><span class="code">组队码cx1043</span> <span class="hint">匹配以下活动</span></div>
+<div class="acard">
+<div class="ahdr"><div class="aav"><span>MITSUI<br>OUTLET<br>PARK</span></div><div class="ainf"><div class="an">日本·大丸百货消费返现</div><div class="ad">活动时间 2025.11.30~11.30</div></div></div>
+<div class="abody">
+<div class="atrow">
+<div class="atavs"><div class="a"><img src="images/success_avatar.png"></div><div class="a"><img src="images/success_avatar.png"></div><div class="a"><img src="images/success_avatar.png"></div></div>
+<span class="atst">队伍已有<span class="ac">4</span>名队友，<span class="ac">当前享3%返现</span></span>
+</div>
+<div class="apbdg">❓ 享3%组队返现</div>
+<div class="apb"><div class="apbt"><div class="apbf" style="width:100%"></div><div class="apd"><div class="apdd"></div><div class="apdd"></div><div class="apdd l"></div></div></div></div>
+<div class="apls"><div>队伍满3千元<br>个人消费返2%</div><div>队伍满6千元<br>个人消费返2.5%</div><div class="al">队伍满1.2万元<br>个人消费返3%</div></div>
+</div>
+<div class="abtns"><button class="abtn o" onclick="goTo('page-nav')">查看活动</button><button class="abtn p" onclick="showWrongCodeToast()">加入队伍</button></div>
+</div>
+<div class="tov" id="toast-wrongcode"><div class="tbx">未找到队伍，<br>请检查组队码！</div></div>
+</div>
+</div>
+
 <!-- MERCHANT DETAIL -->
 <div class="page" id="page-merchant">
 <div class="mdp">
@@ -556,6 +590,11 @@ function doSearch(){
 }
 function showJoinToast(){
   var t=document.getElementById('toast-join');
+  t.classList.remove('on');void t.offsetWidth;t.classList.add('on');
+  setTimeout(function(){t.classList.remove('on')},2500);
+}
+function showWrongCodeToast(){
+  var t=document.getElementById('toast-wrongcode');
   t.classList.remove('on');void t.offsetWidth;t.classList.add('on');
   setTimeout(function(){t.classList.remove('on')},2500);
 }
